@@ -4,8 +4,8 @@
                     <div class="row">
                         <div class="col-md-8">
                             <ul class="top-contact list-text-white  d-table">
-                                <li><a href="#"><i class="fas fa-phone-alt text-primary mr-1"></i>(+254) 725 000000</a></li>
-                                <li><a href="#"><i class="fas fa-envelope text-primary mr-1"></i>sheltarstartup@gmail.com</a></li>
+                                <li><a href="#"><i class="fas fa-phone-alt text-primary mr-1"></i>(+254) 795198192</a></li>
+                                <li><a href="https://mail.google.com/mail/u/2/#inbox?compose=new"><i class="fas fa-envelope text-primary mr-1"></i>sheltarproperties@gmail.com</a></li>
                             </ul>
                         </div>
                         <div class="col-md-4">

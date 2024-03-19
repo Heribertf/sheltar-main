@@ -16,11 +16,9 @@
                                             <div class="footer-widget footer-nav mb-4">
                                                 <h4 class="widget-title text-white double-down-line-left position-relative">Support</h4>
                                                 <ul class="hover-text-primary">
-                                                    <li><a href="#" class="text-white">Forum</a></li>
-                                                    <li><a href="#" class="text-white">Statistics</a></li>
                                                     <li><a href="#" class="text-white">Terms and Condition</a></li>
                                                     <li><a href="#" class="text-white">Frequently Asked Question</a></li>
-                                                    <li><a href="#" class="text-white">Contact</a></li>
+                                                    <li><a href="contact.php" class="text-white">Contact</a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -30,7 +28,6 @@
                                                 <ul class="hover-text-primary">
                                                     <li><a href="#" class="text-white">About Us</a></li>
                                                     <li><a href="#" class="text-white">Featured Properties</a></li>
-                                                    <li><a href="#" class="text-white">Become A Member</a></li>
                                                     <li><a href="#" class="text-white">Submit Property</a></li>
                                                     <li><a href="#" class="text-white">Our Agents</a></li>
                                                 </ul>

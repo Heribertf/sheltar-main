@@ -36,7 +36,7 @@ include("config.php");
 
 <!--	Title
 	=========================================================-->
-<title>Sheltar Limited</title>
+<title>Sheltar Listing platform</title>
 </head>
 <body>
 

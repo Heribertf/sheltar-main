@@ -1,31 +1,39 @@
-<?php 
+<?php
 include("config.php");
-$error="";
-$msg="";
-if(isset($_POST['send']))
-{
-	$name=$_POST['name'];
-	$email=$_POST['email'];
-	$phone=$_POST['phone'];
-	$subject=$_POST['subject'];
-	$message=$_POST['message'];
-	
-	if(!empty($name) && !empty($email) && !empty($phone) && !empty($subject) && !empty($message))
-	{
-		
-		$sql="INSERT INTO contact (name,email,phone,subject,message) VALUES ('$name','$email','$phone','$subject','$message')";
-		   $result=mysqli_query($con, $sql);
-		   if($result){
-			   $msg = "<p class='alert alert-success'>Message Send Successfully</p> ";
-		   }
-		   else{
-			   $error = "<p class='alert alert-warning'>Message Not Send Successfully</p> ";
-		   }
-	}else{
-		$error = "<p class='alert alert-warning'>Please Fill all the fields</p>";
-	}
+
+$error = "";
+$msg = "";
+
+if(isset($_POST['send'])) {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $subject = $_POST['subject'];
+    $message = $_POST['message'];
+    
+    if(!empty($name) && !empty($email) && !empty($phone) && !empty($subject) && !empty($message)) {
+        // Prepare the SQL statement
+        $sql = "INSERT INTO contact (name, email, phone, subject, message) VALUES (?, ?, ?, ?, ?)";
+        $stmt = mysqli_prepare($con, $sql);
+
+        // Bind parameters to the prepared statement
+        mysqli_stmt_bind_param($stmt, "sssss", $name, $email, $phone, $subject, $message);
+
+        // Execute the prepared statement
+        if(mysqli_stmt_execute($stmt)) {
+            $msg = "<p class='alert alert-success'>Message Sent Successfully</p>";
+        } else {
+            $error = "<p class='alert alert-warning'>Message Not Sent Successfully</p>";
+        }
+
+        // Close the statement
+        mysqli_stmt_close($stmt);
+    } else {
+        $error = "<p class='alert alert-warning'>Please fill in all the fields</p>";
+    }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -115,13 +123,13 @@ if(isset($_POST['send']))
                                 <li class="d-flex mb-4"> <i class="fas fa-phone-alt text-white mr-2 font-13 mt-1"></i>
                                     <div class="contact-address">
                                         <h5 class="text-white">Call Us</h5>
-                                        <span class="d-table text-secondary">(+254) 725 000000</span>
+                                        <span class="d-table text-secondary">(+254) 795198192</span>
 									</div>
                                 </li>
                                 <li class="d-flex mb-4"> <i class="fas fa-envelope text-white mr-2 font-13 mt-1"></i>
                                     <div class="contact-address">
                                         <h5 class="text-white">Email Adderss</h5>
-										<span class="d-table text-secondary">helpline@sheltarstartup.com</span>
+										<span class="d-table text-secondary">sheltarproperties@gmail.com</span>
 										</div>
                                 </li>
                             </ul>
