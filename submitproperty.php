@@ -1,67 +1,82 @@
 <?php 
-ini_set('session.cache_limiter','public');
+ini_set('session.cache_limiter', 'public');
 session_cache_limiter(false);
 session_start();
 include("config.php");
-if(!isset($_SESSION['uemail']))
-{
-	header("location:login.php");
+
+if (!isset($_SESSION['uemail'])) {
+    header("location: login.php");
+    exit;
 }
 
-//// code insert
-//// add code
-$error="";
-$msg="";
-if(isset($_POST['add']))
-{
-	
-	$title=$_POST['title'];
-	$content=$_POST['content'];
-	$ptype=$_POST['ptype'];
-	$bed=$_POST['bed'];
-	$stype=$_POST['stype'];
-	$floor=$_POST['floor'];
-	$price=$_POST['price'];
-	$city=$_POST['city'];
-	$asize=$_POST['asize'];
-	$loc=$_POST['loc'];
-	$state=$_POST['state'];
-	$status=$_POST['status'];
-	$uid=$_SESSION['uid'];
-	
-	$aimage=$_FILES['aimage']['name'];
-	$aimage1=$_FILES['aimage1']['name'];
-	$aimage2=$_FILES['aimage2']['name'];
-	$aimage3=$_FILES['aimage3']['name'];
-	$aimage4=$_FILES['aimage4']['name'];
-	
-	$fimage=$_FILES['fimage']['name'];
-	$fimage1=$_FILES['fimage1']['name'];
-	$fimage2=$_FILES['fimage2']['name'];
-	
-	$temp_name  =$_FILES['aimage']['tmp_name'];
-	$temp_name1 =$_FILES['aimage1']['tmp_name'];
-	$temp_name2 =$_FILES['aimage2']['tmp_name'];
-	$temp_name3 =$_FILES['aimage3']['tmp_name'];
-	$temp_name4 =$_FILES['aimage4']['tmp_name'];
-	
-	$temp_name5 =$_FILES['fimage']['tmp_name'];
-	$temp_name6 =$_FILES['fimage1']['tmp_name'];
-	$temp_name7 =$_FILES['fimage2']['tmp_name'];
-	
-	move_uploaded_file($temp_name,"admin/property/$aimage");
-	move_uploaded_file($temp_name1,"admin/property/$aimage1");
-	move_uploaded_file($temp_name2,"admin/property/$aimage2");
-	move_uploaded_file($temp_name3,"admin/property/$aimage3");
-	move_uploaded_file($temp_name4,"admin/property/$aimage4");
-	
-	move_uploaded_file($temp_name5,"admin/property/$fimage");
-	move_uploaded_file($temp_name6,"admin/property/$fimage1");
-	move_uploaded_file($temp_name7,"admin/property/$fimage2");
-	
-	$sql="insert into property (title,pcontent,type,stype,bedroom,floor,size,price,location,city,state,pimage,pimage1,pimage2,pimage3,pimage4,uid,status)
-	values('$title','$content','$ptype','$stype','$bed','$floor','$asize','$price',
-	'$loc','$city','$state','$aimage','$aimage1','$aimage2','$aimage3','$aimage4','$uid','$status')";
+
+$error = "";
+$msg = "";
+
+if (isset($_POST['add'])) {
+    
+    $title = $_POST['title'];
+    $content = $_POST['content'];
+    $ptype = $_POST['h_type'];
+    $bed = $_POST['bed'];
+    $stype = $_POST['stype'];
+    $floor = $_POST['floor'];
+    $price = $_POST['price'];
+    $city = $_POST['city'];
+    $asize = $_POST['asize'];
+    $loc = $_POST['loc'];
+    $state = $_POST['state'];
+    $status = $_POST['status'];
+    $uid = $_SESSION['uid'];
+    
+   
+    $aimage = $_FILES['aimage']['name'];
+    $aimage1 = $_FILES['aimage1']['name'];
+    $aimage2 = $_FILES['aimage2']['name'];
+    $aimage3 = $_FILES['aimage3']['name'];
+    $aimage4 = $_FILES['aimage4']['name'];
+
+    $fimage = isset($_FILES['fimage']['name']) ? $_FILES['fimage']['name'] : '';
+    $fimage1 = isset($_FILES['fimage1']['name']) ? $_FILES['fimage1']['name'] : '';
+    $fimage2 = isset($_FILES['fimage2']['name']) ? $_FILES['fimage2']['name'] : '';
+
+    
+    $temp_name = $_FILES['aimage']['tmp_name'];
+    $temp_name1 = $_FILES['aimage1']['tmp_name'];
+    $temp_name2 = $_FILES['aimage2']['tmp_name'];
+    $temp_name3 = $_FILES['aimage3']['tmp_name'];
+    $temp_name4 = $_FILES['aimage4']['tmp_name'];
+
+    $temp_name5 = isset($_FILES['fimage']['tmp_name']) ? $_FILES['fimage']['tmp_name'] : '';
+    $temp_name6 = isset($_FILES['fimage1']['tmp_name']) ? $_FILES['fimage1']['tmp_name'] : '';
+    $temp_name7 = isset($_FILES['fimage2']['tmp_name']) ? $_FILES['fimage2']['tmp_name'] : '';
+
+    
+    move_uploaded_file($temp_name, "admin/property/$aimage");
+    move_uploaded_file($temp_name1, "admin/property/$aimage1");
+    move_uploaded_file($temp_name2, "admin/property/$aimage2");
+    move_uploaded_file($temp_name3, "admin/property/$aimage3");
+    move_uploaded_file($temp_name4, "admin/property/$aimage4");
+
+    
+    if (!empty($fimage)) {
+        move_uploaded_file($temp_name5, "admin/property/$fimage");
+    }
+
+    
+    if (!empty($fimage1)) {
+        move_uploaded_file($temp_name6, "admin/property/$fimage1");
+    }
+
+   
+    if (!empty($fimage2)) {
+        move_uploaded_file($temp_name7, "admin/property/$fimage2");
+    }
+
+    
+    $sql = "INSERT INTO property (title, pcontent, type, stype, bedroom, floor, size, price, location, city, state, pimage, pimage1, pimage2, pimage3, pimage4, uid, status) 
+            VALUES ('$title', '$content', '$ptype', '$stype', '$bed', '$floor', '$asize', '$price', '$loc', '$city', '$state', '$aimage', '$aimage1', '$aimage2', '$aimage3', '$aimage4','$uid','$status')";
+
 	$result=mysqli_query($con,$sql);
 	if($result)
 		{
@@ -269,7 +284,8 @@ if(isset($_POST['add']))
 											<div class="col-xl-6">
 												
 												<div class="form-group row">
-													<label class="col-lg-3 col-form-label">Image</label>
+													<label class="col-lg-3 col-form-label">Image
+													</label>
 													<div class="col-lg-9">
 														<input class="form-control" name="aimage" type="file" required="">
 													</div>
