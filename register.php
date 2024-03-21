@@ -1,48 +1,40 @@
 <?php 
 include("config.php");
-$error="";
-$msg="";
-if(isset($_REQUEST['reg']))
-{
-	$name=$_REQUEST['name'];
-	$email=$_REQUEST['email'];
-	$phone=$_REQUEST['phone'];
-	$pass=$_REQUEST['pass'];
-	$utype=$_REQUEST['utype'];
-	
-	$uimage=$_FILES['uimage']['name'];
-	$temp_name1 = $_FILES['uimage']['tmp_name'];
-	
-	$query = "SELECT * FROM user where uemail='$email'";
-	$res=mysqli_query($con, $query);
-	$num=mysqli_num_rows($res);
-	
-	if($num == 1)
-	{
-		$error = "<p class='alert alert-warning'>Email Id already Exist</p> ";
-	}
-	else
-	{
-		
-		if(!empty($name) && !empty($email) && !empty($phone) && !empty($pass) && !empty($uimage))
-		{
-			
-			$sql="INSERT INTO user (uname,uemail,uphone,upass,utype,uimage) VALUES ('$name','$email','$phone','$pass','$utype','$uimage')";
-			$result=mysqli_query($con, $sql);
-			move_uploaded_file($temp_name1,"admin/user/$uimage");
-			   if($result){
-				   $msg = "<p class='alert alert-success'>You have registered Successfully</p> ";
-			   }
-			   else{
-				   $error = "<p class='alert alert-warning'>Registration process Not Successful</p> ";
-			   }
-		}else{
-			$error = "<p class='alert alert-warning'>Please Fill all the fields</p>";
-		}
-	}
-	
+
+$error = "";
+$msg = "";
+
+if(isset($_REQUEST['reg'])) {
+    $name = $_REQUEST['name'];
+    $email = $_REQUEST['email'];
+    $phone = $_REQUEST['phone'];
+    $pass = $_REQUEST['pass'];
+    $utype = $_REQUEST['utype'];
+    
+    $query = "SELECT * FROM user where uemail='$email'";
+    $res = mysqli_query($con, $query);
+    $num = mysqli_num_rows($res);
+    
+    if($num == 1) {
+        $error = "<p class='alert alert-warning'>Email Id already Exist</p> ";
+    } else {
+        
+        if(!empty($name) && !empty($email) && !empty($phone) && !empty($pass)) {
+            $sql = "INSERT INTO user (uname, uemail, uphone, upass, utype) VALUES ('$name', '$email', '$phone', '$pass', '$utype')";
+            $result = mysqli_query($con, $sql);
+            
+            if($result) {
+                $msg = "<p class='alert alert-success'>You have registered Successfully</p> ";
+            } else {
+                $error = "<p class='alert alert-warning'>Registration process Not Successful</p> ";
+            }
+        } else {
+            $error = "<p class='alert alert-warning'>Please Fill all the fields</p>";
+        }
+    }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -158,12 +150,6 @@ if(isset($_REQUEST['reg']))
 										<input type="radio" class="form-check-input" name="utype" value="builder">Home Owner
 									  </label>
 									</div> 
-									
-									<div class="form-group">
-										<label class="col-form-label"><b>User Image</b></label>
-										<input class="form-control" name="uimage" type="file">
-									</div>
-									
 									<button class="btn btn-primary" name="reg" value="Register" type="submit">Register</button>
 									
 								</form>
@@ -178,8 +164,6 @@ if(isset($_REQUEST['reg']))
 									<span>Register with</span>
 									<a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a>
 									<a href="#" class="google"><i class="fab fa-google"></i></a>
-									<a href="#" class="facebook"><i class="fab fa-twitter"></i></a>
-									<a href="#" class="google"><i class="fab fa-instagram"></i></a>
 								</div>
 								<!-- /Social Login -->
 								
