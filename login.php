@@ -1,3 +1,4 @@
+
 <?php 
 session_start();
 include("config.php");
@@ -136,10 +137,7 @@ if(isset($_REQUEST['login']))
 								<!-- Social Login -->
 								<div class="social-login">
 									<span>Login with</span>
-									<a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a>
 									<a href="#" class="google"><i class="fab fa-google"></i></a>
-									<a href="#" class="facebook"><i class="fab fa-twitter"></i></a>
-									<a href="#" class="google"><i class="fab fa-instagram"></i></a>
 								</div>
 								<!-- /Social Login -->
 								
