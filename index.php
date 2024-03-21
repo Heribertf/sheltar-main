@@ -98,43 +98,42 @@ include("config.php");
         </div>
         <!--	Banner End  -->
         
-        <!--	Text Block One
+         <!--	Text Block One
 		======================================================-->
-        <div class="full-row bg-gray">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h2 class="text-secondary double-down-line text-center mb-5">What We Do</h2></div>
+        <!-- Our Services -->
+<div class="full-row bg-gray">
+    <div class="container">
+        <h2 class="text-secondary double-down-line text-center mb-5">Our Services</h2>
+        <div class="text-box-one">
+            <div class="row justify-content-center">
+                <div class="col-lg-3 col-md-6 mb-4 mr-md-5"> <!-- Adjusted column classes to include left and right margin -->
+                    <div class="p-4 text-center hover-bg-white hover-shadow rounded transation-3s"> 
+                        <i class="flaticon-rent text-primary flat-medium" aria-hidden="true"></i>
+                        <h5 class="text-secondary hover-text-primary py-3 m-0"><a href="#">Rental Services</a></h5>
+                        <p>Sheltar is an online listing platform that will enable individuals to search and secure affordable and quality housing.</p>
+                    </div>
                 </div>
-                <div class="text-box-one">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6">
-                            <div class="p-4 text-center hover-bg-white hover-shadow rounded mb-4 transation-3s"> 
-								<i class="flaticon-rent text-primary flat-medium" aria-hidden="true"></i>
-                                <h5 class="text-secondary hover-text-primary py-3 m-0"><a href="#">Rental Services</a></h5>
-                                <p>Sheltar is an online listing platform that will enable individuals to search and secure affordable and quality housing.</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="p-4 text-center hover-bg-white hover-shadow rounded mb-4 transation-3s"> 
-								<i class="flaticon-for-rent text-primary flat-medium" aria-hidden="true"></i>
-                                <h5 class="text-secondary hover-text-primary py-3 m-0"><a href="#">Moving Services</a></h5>
-                                <p>Additionally, we will also offer door to door moving services to our clients.</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="p-4 text-center hover-bg-white hover-shadow rounded mb-4 transation-3s"> 
-								<i class="flaticon-list text-primary flat-medium" aria-hidden="true"></i>
-                                <h5 class="text-secondary hover-text-primary py-3 m-0"><a href="#">Property Listing</a></h5>
-                                <p>Sheltar is the best platform to use for listing your property. We guarantee more reach in the market</p>
-                            </div>
-                        </div>
-                        
+                <div class="col-lg-3 col-md-6 mb-4 mr-md-5"> <!-- Adjusted column classes to include left and right margin -->
+                    <div class="p-4 text-center hover-bg-white hover-shadow rounded transation-3s"> 
+                        <i class="flaticon-for-rent text-primary flat-medium" aria-hidden="true"></i>
+                        <h5 class="text-secondary hover-text-primary py-3 m-0"><a href="#">Moving Services</a></h5>
+                        <p>Additionally, we will also offer door to door moving services to our clients.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mr-md-5"> <!-- Adjusted column classes to include left and right margin -->
+                    <div class="p-4 text-center hover-bg-white hover-shadow rounded transation-3s"> 
+                        <i class="flaticon-list text-primary flat-medium" aria-hidden="true"></i>
+                        <h5 class="text-secondary hover-text-primary py-3 m-0"><a href="#">Property Listing</a></h5>
+                        <p>Sheltar is the best platform to use for listing your property. We guarantee more reach in the market</p>
                     </div>
                 </div>
             </div>
         </div>
-		<!-----  Our Services  ---->
+    </div>
+</div>
+<!-- Our Services -->
+
+
 		
         <!--	Recent Properties  -->
         <div class="full-row">
