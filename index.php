@@ -208,15 +208,15 @@ include("config.php");
                                 <li class="mb-4 text-white d-flex"> 
 									<i class="flaticon-reward flat-medium float-left d-table mr-4 text-primary" aria-hidden="true"></i>
 									<div class="pl-2">
-										<h5 class="mb-3">Experience Quality</h5>
-										<p>Sheltar is the best platform to use for listing your property. We guarantee more reach in the market</p>
+										<h5 class="mb-3">Quality Assurance</h5>
+										<p>Discover meticulously selected residences meticulously vetted by our team for unrivaled quality,ensuring you find a home that meets our stringent standards.</p>
 									</div>
                                 </li>
                                 <li class="mb-4 text-white d-flex"> 
 									<i class="flaticon-real-estate flat-medium float-left d-table mr-4 text-primary" aria-hidden="true"></i>
 									<div class="pl-2">
-										<h5 class="mb-3">Experience Quality</h5>
-										<p>Sheltar is the best platform to use for listing your property. We guarantee more reach in the market</p>
+										<h5 class="mb-3">Personalized Service</h5>
+										<p>Experience a personalized journey to your dream home, where your unique preferences are understood and catered to with precision and care</p>
 									</div>
                                 </li>
                                 
@@ -243,24 +243,24 @@ include("config.php");
                         <div class="icon-thumb-one text-center mb-5">
                             <div class="bg-primary text-white rounded-circle position-absolute z-index-9">1</div>
                             <div class="left-arrow"><i class="flaticon-investor flat-medium icon-primary" aria-hidden="true"></i></div>
-                            <h5 class="text-secondary mt-5 mb-4">Discussion</h5>
-                            <p>Nascetur cubilia sociosqu aliquet ut elit nascetur nullam duis tincidunt nisl non quisque vestibulum platea ornare ridiculus.</p>
+                            <h5 class="text-secondary mt-5 mb-4"> Connect with Landlords</h5>
+                            <p>We personally engage with landlords to enlist their properties on our platform, ensuring a diverse selection of properties.</p>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="icon-thumb-one text-center mb-5">
                             <div class="bg-primary text-white rounded-circle position-absolute z-index-9">2</div>
                             <div class="left-arrow"><i class="flaticon-search flat-medium icon-primary" aria-hidden="true"></i></div>
-                            <h5 class="text-secondary mt-5 mb-4">Files Review</h5>
-                            <p>Nascetur cubilia sociosqu aliquet ut elit nascetur nullam duis tincidunt nisl non quisque vestibulum platea ornare ridiculus.</p>
+                            <h5 class="text-secondary mt-5 mb-4">Explore and Inquire</h5>
+                            <p>Simply log in to our system, browse through available properties, and send a message directly to the owner to express interest.</p>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="icon-thumb-one text-center mb-5">
                             <div class="bg-primary text-white rounded-circle position-absolute z-index-9">3</div>
                             <div><i class="flaticon-handshake flat-medium icon-primary" aria-hidden="true"></i></div>
-                            <h5 class="text-secondary mt-5 mb-4">Property Acqusition</h5>
-                            <p>Nascetur cubilia sociosqu aliquet ut elit nascetur nullam duis tincidunt nisl non quisque vestibulum platea ornare ridiculus.</p>
+                            <h5 class="text-secondary mt-5 mb-4">Book a Visit</h5>
+                            <p>Easily schedule a house visit through our platform, facilitating seamless communication between you and the property owner.</p>
                         </div>
                     </div>
                 </div>
