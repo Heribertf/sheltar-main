@@ -16,9 +16,7 @@
                                             <div class="footer-widget footer-nav mb-4">
                                                 <h4 class="widget-title text-white double-down-line-left position-relative">Support</h4>
                                                 <ul class="hover-text-primary">
-                                                    <li><a href="#" class="text-white">Terms and Condition</a></li>
-                                                    <li><a href="#" class="text-white">Frequently Asked Question</a></li>
-                                                    <li><a href="contact.php" class="text-white">Contact</a></li>
+                                                    <li><a href="contact.php" class="text-white">Contact Us</a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -38,8 +36,8 @@
                                                 <h4 class="widget-title text-white double-down-line-left position-relative">Contact Us</h4>
                                                 <ul class="text-white">
                                                     <li class="hover-text-primary"><i class="fas fa-map-marker-alt text-white mr-2 font-13 mt-1"></i>River View 1, Eldoret Kenya</li>
-                                                    <li class="hover-text-primary"> <i class="fas fa-phone-alt text-white mr-2 font-13 mt-1"></i>(+254) 725 000000</li>
-                                                    <li class="hover-text-primary"><i class="fas fa-envelope text-white mr-2 font-13 mt-1"></i>helpline@sheltarstartup.com</li>
+                                                    <li class="hover-text-primary"> <i class="fas fa-phone-alt text-white mr-2 font-13 mt-1"></i>(+254) 795 198192</li>
+                                                    <li class="hover-text-primary"><i class="fas fa-envelope text-white mr-2 font-13 mt-1"></i>sheltarproperties@gmail.com</li>
                                                 </ul>
                                             </div>
                                             <div class="footer-widget media-widget mt-4 text-white hover-text-primary"> <a href="#"><i class="fab fa-facebook-f"></i></a> <a href="#"><i class="fab fa-twitter"></i></a> <a href="#"><i class="fab fa-google-plus-g"></i></a> <a href="#"><i class="fab fa-linkedin-in"></i></a> <a href="#"><i class="fas fa-rss"></i></a> </div>
