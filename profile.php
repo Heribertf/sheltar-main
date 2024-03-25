@@ -23,7 +23,7 @@ if(isset($_POST['insert']))
 	if(!empty($name) && !empty($phone) && !empty($content))
 	{
 		
-		$sql="INSERT INTO feedback (uid,fdescription,status) VALUES ('$uid','$content','0')";
+		$sql="INSERT INTO feedback (uid,message,status) VALUES ('$uid','$content','1')";
 		   $result=mysqli_query($con, $sql);
 		   if($result){
 			   $msg = "<p class='alert alert-success'>Feedback Sent Successfully</p> ";
