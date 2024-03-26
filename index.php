@@ -86,7 +86,7 @@ include("config.php");
 
                                     <div class="col-md-4 col-lg-2">
                                         <div class="form-group">
-                                            <button type="submit" name="filter" class="btn btn-primary w-100">Search Property</button>
+                                            <button type="submit" name="filter" class="btn btn-primary w-100">Search Now</button>
                                         </div>
                                     </div>
                                 </div>
