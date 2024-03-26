@@ -5,7 +5,7 @@ session_start();
 include("config.php");
 if(!isset($_SESSION['uemail']))
 {
-	header("location:login.php");
+	header("location:index.php");
 }
 
 ////// code
