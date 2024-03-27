@@ -7,7 +7,7 @@
                                 <div class="col-md-12 col-lg-4">
                                     <div class="footer-widget mb-4">
                                         <div class="footer-logo mb-4"> <a href="index.php"><img class="logo-bottom" src="images/logo/Sheltar scaled.png" alt="image"></a> </div>
-                                        <p class="pb-20 text-white">Sheltar is an online listing platform that will enable individuals to search and secure affordable and quality housing. Additionally, we will also offer door to door moving services to our clients.</p>
+                                        <p class="pb-20 text-white">Sheltar is a new online platform where you can easily find and secure affordable, high-quality housing. We also provide convenient door-to-door moving services for our clients.</p>
                                         </div>
                                 </div>
                                 <div class="col-md-12 col-lg-8">
@@ -24,9 +24,9 @@
                                             <div class="footer-widget footer-nav mb-4">
                                                 <h4 class="widget-title text-white double-down-line-left position-relative">Quick Links</h4>
                                                 <ul class="hover-text-primary">
-                                                    <li><a href="#" class="text-white">About Us</a></li>
-                                                    <li><a href="#" class="text-white">Featured Properties</a></li>
-                                                    <li><a href="#" class="text-white">Submit Property</a></li>
+                                                    <li><a href="about.php" class="text-white">About Us</a></li>
+                                                    <li><a href="property.php" class="text-white">Featured Properties</a></li>
+                                                    <li><a href="submitproperty.php" class="text-white">Submit Property</a></li>
                                                     <li><a href="#" class="text-white">Our Agents</a></li>
                                                 </ul>
                                             </div>
