@@ -74,7 +74,7 @@ include("config.php");
                                     
                                     <div class="col--8 col-mdlg-6">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="House Type" placeholder="Enter Type of house" required>
+                                            <input type="text" class="form-control" name="type" placeholder="Enter Type of house" required>
                                         </div>
                                     </div>
 
@@ -83,6 +83,15 @@ include("config.php");
                                             <input type="text" class="form-control" name="price" placeholder="Max Price" required>
                                         </div>
                                     </div>
+                                    <div class="col-md-4 col-lg-2">
+                                 <div class="form-group">
+                                   <select class="form-control" name="stype" required>
+                                    <option value="" disabled selected>For..</option>
+                                   <option value="rent">Rent</option>
+                                   <option value="sale">Sale</option>
+                                    </select>
+                                    </div>
+                                 </div>
 
                                     <div class="col-md-4 col-lg-2">
                                         <div class="form-group">
