@@ -178,7 +178,7 @@ include("config.php");
                                                 </div>
                                                 <div class="p-4 d-inline-block w-100">
                                                     <div class="float-left text-capitalize"><i class="fas fa-user text-primary mr-1"></i>By : <?php echo $row['uname'];?></div>
-                                                    <div class="float-right"><i class="far fa-calendar-alt text-primary mr-1"></i> 6 Months Ago</div>
+                                                    <div class="float-right"><i class="far fa-calendar-alt text-primary mr-1"></i> 6 Days Ago</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -337,7 +337,7 @@ include("config.php");
             </div>
         </div>
         
-        <!--	Popular Place -->
+        <!--	Popular Places -->
         <div class="full-row bg-gray">
             <div class="container">
                 <div class="row">
@@ -354,7 +354,7 @@ include("config.php");
 											while($row=mysqli_fetch_array($query))
 												{
 										?>
-                                    <h4 class="hover-text-primary text-capitalize"><a href="stateproperty.php?id=<?php echo $row['17']?>"><?php echo $row['state'];?></a></h4>
+                                    <h4 class="hover-text-primary text-capitalize"><a href="stateproperty.php?id=<?php echo $row['state']?>"><?php echo $row['state'];?></a></h4>
                                     <span><?php 
 												$total = $row[0];
 												echo $total;?> Properties Listed</span> </div>
@@ -369,7 +369,7 @@ include("config.php");
 											while($row=mysqli_fetch_array($query))
 												{
 										?>
-                                    <h4 class="hover-text-primary text-capitalize"><a href="stateproperty.php?id=<?php echo $row['17']?>"><?php echo $row['state'];?></a></h4>
+                                    <h4 class="hover-text-primary text-capitalize"><a href="stateproperty.php?id=<?php echo $row['state']?>"><?php echo $row['state'];?></a></h4>
                                     <span><?php 
 												$total = $row[0];
 												echo $total;?> Properties Listed</span> </div>
@@ -384,7 +384,7 @@ include("config.php");
 											while($row=mysqli_fetch_array($query))
 												{
 										?>
-                                    <h4 class="hover-text-primary text-capitalize"><a href="stateproperty.php?id=<?php echo $row['17']?>"><?php echo $row['state'];?></a></h4>
+                                    <h4 class="hover-text-primary text-capitalize"><a href="stateproperty.php?id=<?php echo $row['state']?>"><?php echo $row['state'];?></a></h4>
                                     <span><?php 
 												$total = $row[0];
 												echo $total;?> Properties Listed</span> </div>
@@ -399,7 +399,7 @@ include("config.php");
 											while($row=mysqli_fetch_array($query))
 												{
 										?>
-                                    <h4 class="hover-text-primary text-capitalize"><a href="stateproperty.php?id=<?php echo $row['17']?>"><?php echo $row['state'];?></a></h4>
+                                    <h4 class="hover-text-primary text-capitalize"><a href="stateproperty.php?id=<?php echo $row['state']?>"><?php echo $row['state'];?></a></h4>
                                     <span><?php 
 												$total = $row[0];
 												echo $total;?> Properties Listed</span> </div>
