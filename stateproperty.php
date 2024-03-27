@@ -101,7 +101,7 @@ include("config.php");
 									
                             <div class="col-md-6">
                                 <div class="featured-thumb hover-zoomer mb-4">
-                                    <div class="overlay-black overflow-hidden position-relative"> <img src="admin/property/<?php echo $row['18'];?>" alt="pimage">
+                                    <div class="overlay-black overflow-hidden position-relative"> <img src="admin/property/<?php echo $row['pimage1'];?>" alt="pimage">
                                         
                                         <div class="sale bg-secondary text-white">For <?php echo $row['5'];?></div>
                                         <div class="price text-primary text-capitalize">$<?php echo $row['13'];?> <span class="text-white"><?php echo $row['12'];?> Sqft</span></div>
