@@ -174,7 +174,7 @@ include("config.php");
                                             <div class="overlay-black overflow-hidden position-relative"> <img src="admin/property/<?php echo $row['13'];?>" alt="pimage">
                                                 <div class="featured bg-primary text-white">New</div>
                                                 <div class="sale bg-secondary text-white text-capitalize">For <?php echo $row['5'];?></div>
-                                                <div class="price text-primary"><b>$<?php echo $row['9'];?> </b><span class="text-white"><?php echo $row['8'];?> Sqft</span></div>
+                                                <div class="price text-primary"><b>$<?php echo $row['8'];?> </b><span class="text-white"><?php echo $row['7'];?> Sqft</span></div>
                                             </div>
                                             <div class="featured-thumb-data shadow-one">
                                                 <div class="p-3">
@@ -386,7 +386,7 @@ include("config.php");
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-3 pb-1">
-                            <div class="overflow-hidden position-relative overlay-secondary hover-zoomer mx-n13 z-index-9"> <img src="images/thumbnail4/3.jpg" alt="">
+                            <div class="overflow-hidden position-relative overlay-secondary hover-zoomer mx-n13 z-index-9"> <img src="images/thumbnail4/nai.jpg" alt="">
                                 <div class="text-white xy-center z-index-9 position-absolute text-center w-100">
                                     <?php
 										$query=mysqli_query($con,"SELECT count(state), property.* FROM property where state='Nairobi'");
