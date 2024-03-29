@@ -77,7 +77,7 @@ include("config.php");
         
             <div id="how" class="row">
             <div class="col-md-12">
-                <h1 id = "h1_header">What we carefully do! </h1>
+                <h1 id = "h1_header">What we do! </h1>
             </div>
         
         <!--row 4-->
