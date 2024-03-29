@@ -100,7 +100,7 @@ include("config.php");
                                     <div class="overlay-black overflow-hidden position-relative"> <img src="images/property/<?php echo $row['13'];?>" alt="pimage">
                                         
                                         <div class="sale bg-secondary text-white">For <?php echo $row['5'];?></div>
-                                        <div class="price text-primary text-capitalize">$<?php echo $row['9'];?> <span class="text-white"><?php echo $row['8'];?> Sqft</span></div>
+                                        <div class="price text-primary text-capitalize">$<?php echo $row['8'];?> <span class="text-white"><?php echo $row['7'];?> Sqft</span></div>
                                         
                                     </div>
                                     <div class="featured-thumb-data shadow-one">
