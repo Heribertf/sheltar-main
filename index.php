@@ -180,10 +180,7 @@ include("config.php");
                                                 <div class="p-3">
                                                     <h5 class="text-secondary hover-text-primary mb-2 text-capitalize"><a href="propertydetail.php?pid=<?php echo $row['0'];?>"><?php echo $row['1'];?></a></h5></div>
                                                 <div class="bg-gray quantity px-4 pt-4">
-                                                    <ul>
-                                                        <li><span><?php echo $row['8'];?></span> Sqft</li>
-                                                        
-                                                    </ul>
+                                                   <span class="location text-capitalize"><i class="fas fa-map-marker-alt text-primary"></i> <?php echo $row['9'];?></span>
                                                 </div>
                                                 <div class="p-4 d-inline-block w-100">
                                                     <div class="float-left text-capitalize"><i class="fas fa-user text-primary mr-1"></i>By : <?php echo $row['uname'];?></div>

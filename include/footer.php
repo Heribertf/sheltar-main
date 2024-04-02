@@ -27,7 +27,7 @@
                                                     <li><a href="about.php" class="text-white">About Us</a></li>
                                                     <li><a href="property.php" class="text-white">Featured Properties</a></li>
                                                     <li><a href="submitproperty.php" class="text-white">Submit Property</a></li>
-                                                    <li><a href="#" class="text-white">Our Agents</a></li>
+                                                    <li><a href="sheltar_go.php" class="text-white">Sheltar Movers</a></li>
                                                 </ul>
                                             </div>
                                         </div>

@@ -1,10 +1,39 @@
-<?php 
-ini_set('session.cache_limiter','public');
-session_cache_limiter(false);
-session_start();
+<?php
 include("config.php");
-///code								
+
+$error = "";
+$msg = "";
+
+if(isset($_POST['send'])) {
+    $origin = $_POST['origin'];
+    $destination = $_POST['destination'];
+    $moving_date = $_POST['moving_date'];
+    $vehicle_type = $_POST['vehicle_type'];
+    
+    
+    if(!empty($origin) && !empty($destination) && !empty($moving_date) && !empty($vehicle_type)){
+        // Prepare the SQL statement
+        $sql = "INSERT INTO moving_quotes (origin, destination, moving_date,vehicle_type) VALUES (?, ?, ?, ?)";
+        $stmt = mysqli_prepare($con, $sql);
+
+        // Bind parameters to the prepared statement
+        mysqli_stmt_bind_param($stmt, "ssss", $origin, $destination, $moving_date, $vehicle_type);
+
+        // Execute the prepared statement
+        if(mysqli_stmt_execute($stmt)) {
+            $msg = "<p class='alert alert-success'>Quote Sent Successfully</p>";
+        } else {
+            $error = "<p class='alert alert-warning'>Quote Request Not Sent Successfully</p>";
+        }
+
+        // Close the statement
+        mysqli_stmt_close($stmt);
+    } else {
+        $error = "<p class='alert alert-warning'>Please fill in all the fields</p>";
+    }
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,13 +44,10 @@ include("config.php");
 
 <!-- Meta Tags -->
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="description" content="Homex template">
-<meta name="keywords" content="">
-<meta name="author" content="Unicoder">
 
 <!--	Fonts
 	========================================================-->
-<link href="https://fonts.googleapis.com/css?family=Muli:400,400i,500,600,700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Muli:400,400i,500,600,700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700" rel="stylesheet">
 
 <!--	Css Link
@@ -35,157 +61,139 @@ include("config.php");
 <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="fonts/flaticon/flaticon.css">
 <link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
 
 <!--	Title
 	=========================================================-->
-<title>Sheltar - Properties</title>
+<title>Sheltar-Movers</title>
 </head>
+<body>
 
-<body class="go_body">
+<!--	Page Loader
+=============================================================
+<div class="page-loader position-fixed z-index-9999 w-100 bg-white vh-100">
+	<div class="d-flex justify-content-center y-middle position-relative">
+	  <div class="spinner-border" role="status">
+		<span class="sr-only">Loading...</span>
+	  </div>
+	</div>
+</div>
+--> 
 
-    <!--	Header start  -->
+<div id="page-wrapper">
+    <div class="row"> 
+        <!--	Header start  -->
 		<?php include("include/header.php");?>
         <!--	Header end  -->
+        
+        <!--	Banner -->
+        <div class="banner-full-row page-banner" style="background-image:url('images/breadcromb.jpg');">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2 class="page-name float-left text-white text-uppercase mt-1 mb-0"><b>Sheltar Movers</b></h2>
+                    </div>
+                    <div class="col-md-6">
+                        <nav aria-label="breadcrumb" class="float-left float-md-right">
+                            <ol class="breadcrumb bg-transparent m-0 p-0">
+                                <li class="breadcrumb-item text-white"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active">Sheltar Movers</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--	Banner -->
+		
+        <!--	Quote Inforamtion -->
+        <div class="full-row">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 mb-5 bg-primary">
+                        <div class="contact-info">
+                            <h3 class="mb-4 mt-4 text-white">Our Services</h3>
+							
+                            <ul>
+                                <li class="d-flex mb-4">  <i class="fas fa-home text-white mr-2 font-13 mt-1"></i>
+                                    <div class="contact-address">
+                                        <h5 class="text-white">Residential Move</h5>
+                                        <span class="text-secondary">"Moving homes with care and precision."</span>
+										</div>
+                                </li>
+                                <li class="d-flex mb-4"> <i class="fas fa-building text-white mr-2 font-13 mt-1"></i>
+                                    <div class="contact-address">
+                                        <h5 class="text-white">Commercial Move</h5>
+                                        <span class="d-table text-secondary">"Seamless transitions for your business."</span>
+									</div>
+                                </li>
+                                <li class="d-flex mb-4">  <i class="fas fa-box text-white mr-2 font-13 mt-1"></i>
+                                    <div class="contact-address">
+                                        <h5 class="text-white">Packing & Unpacking</h5>
+										<span class="d-table text-secondary">"Effortless packing, stress-free unpacking."</span>
+										</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+					<div class="col-lg-1"></div>
+                    <div class="col-md-12 col-lg-7">
+						<div class="container">
+                        <div class="row">
+							<div class="col-lg-12">
+								<h2 class="text-secondary double-down-line text-center mb-5">Looking to move? Move with Us</h2>
+								<?php echo $msg; ?><?php echo $error; ?>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<form class="w-100" action="#" method="post">
+									<div class="row">
+										<div class="row mb-4">
+											<div class="form-group col-lg-6">
+												<input type="text"  name="origin" class="form-control" placeholder="From...">
+											</div>
+											<div class="form-group col-lg-6">
+												<input type="text"  name="destination" class="form-control" placeholder="Destination">
+											</div>
+											<div class="form-group col-lg-6">
+                                                <input type="text" id="datepicker" name="moving_date" class="form-control" placeholder="Date of moving">
+                                            </div>
 
-
-        <div class="jumbotron jumbotron-fluid">
-        <div class="row">
-            <div class="col-md-8 offset-md-4 text-right">
-                <h1 id = "h1_header">moving? we can help.</h1>
-                <p>Get rates, availability and deals in your area.</p>
-                <form class="form">
-                    <div class="col-md-7 offset-md-5">
-                        <div class="form-row mb-2">
-                           <input class="form-control" type="search" placeholder="Pick up" aria-label="Search">
-                        </div>
-                        <div class="form-row mb-2">
-                          <input class="form-control" type="search" placeholder="Drop off" aria-label="Search">
-                        </div>
-                        <div class="form-row mb-2">
-                            <input class="form-control" type="search" placeholder="Date" aria-label="Search">
-                        </div>
-                        <div class="form-row mb-2">
-                            <button class="btn btn-block btn-orange" type="submit">Search</button>
-                        </div>
-                         
-                   </div>
-                </form>
+											<div class="form-group col-lg-6">
+                                            <select name="vehicle_type" class="form-control">
+                                            <option value="" disabled selected>Select Vehicle Type </option>
+                                                <option value="Pickup">Pickup</option>
+                                                <option value="Truck">Trailer</option>
+                                                <option value="Trailer">Truck</option>
+                                                <option value="Flight">Flight</option>
+                                            </select>
+											</div>
+											
+										</div>
+										<button type="submit" value="send message" name="send" class="btn btn-primary">Get a Quote</button>
+									</div>
+								</form>
+							</div>
+						</div>
+						</div>
+					</div>
+                </div>
             </div>
         </div>
-        </div>
-        <!--row 3-->
+        <!--	Quote Inforamtion -->
         
-            <div id="how" class="row">
-            <div class="col-md-12">
-                <h1 id = "h1_header">What we do! </h1>
-            </div>
-        
-        <!--row 4-->
-        <div class="row services">
-            <div class="col-md-4">
-                <img src="images/truck.png" style="width:300px;height:200px;"></img>
-                <h2 id = "h2_header">Truck Rentals</h2>
-                <p>If you are ready to set out on your own and have a few friends to help 
-                with theheavy lifting, Sheltar GO can provide the wheels!</p>
-            </div>
-            <div class="col-md-4">
-                <img src="images/suitcase.jpg" style="width:300px;height:200px;"></img>
-                <h2 id = "h2_header">Full Equipment</h2>
-                <p>If you are ready to set out on your own and have a few friends to help with theheavy lifting, 
-                Sheltar GO can provide the wheels!</p>
-            </div>
-            <div class="col-md-4">
-                <img src="images/packag.jpg" style="width:300px;height:200px;"></img>
-                <h2 id = "h2_header">Packaging</h2>
-                <p>Packing up an entire houseful of stuff is a big job! We will pack  from the treasured 
-                stuffed animal collection to the fine antiques.</p>
-            </div>
-        </div> 
-        </div>
-        
-        <!--row 5-->
-        <div id="packag" class="row readmore1">
-            <div class="col-md-5 ">
-                <div class="orangebox">
-                    <h1 id = "h1_header">Dont move, <br> Call Sheltar!</h1>
-                    <p>Get our packaging service & have a rest! We will treat your things as if they were our own. </p>
-                    <button class="btn btn-light justify" type="submit">Read more</button>
-                </div>
-            </div>
-        </div>
-        <!--row 6-->
-        <div id="truck" class="row readmore2">
-            
-            <div class="col-md-5 offset-md-6">
-                <div class="orangebox">
-                    
-                    <h1 id = "h1_header">Truck rentals</h1>
-                    <p>Get out packaging service & have a rest! We will treat your things as if they were our own.  </p>
-                    <button class="btn btn-light justify" type="submit">Read more</button>
-                </div>
-            </div>
-            <img src="img/car.png"></img>
-        </div>
-        <!--row 7-->
-        <div class="row white">
-            <div class="col-md-12">     
-                
-            </div>
-        </div>
-        <!--row 8-->
-        <div id="faq" class="row team">
-            <div class="col-md-12">
-              <h1 id = "h1_header">We are here to help! </h1>
-              <p>We now how to move you fast and easy! Contact us.</p>
-            </div>
-   
-           
-        <!--row 9-->
-        <div class="row team">
-            <div class="col-md-12">  
-        <form>
-            <div class="form-row">
-                <div class="col-md-3 mb-2 offset-md-1">
-                    <input type="text" class="form-control" placeholder="Name">
-                </div>
-                <div class="col-md-3 mb-2">
-                    <input type="text" class="form-control" placeholder="E-mail">
-                </div>
-                <div class="col-md-4 mb-2">
-                    <select class="form-control" placeholder="Category">
-                        <option selected>Category</option>
-                        <option>...</option>
-                    </select>
-                </div>
-                <div class="col-md-10 mb-2 offset-md-1">
-                    <textarea class="form-control" rows="2"></textarea>
-                </div>
-                
-            </div>
-            <div class="col-md-3 mb-2 offset-md-4">
-                <button class="btn btn-block btn-orange" type="submit">Send</button>
-            </div>
-        </form>
-        </div>
-        </div>     
-        
-        <div class="row white">
-            <div class="col-md-12">
-                
-            </div>
-        </div>
-                
-                                 
-                
-            
-        </div>
-    </div><!--conainer-->
-
-         <!--	Footer   start-->
+        <!--	Footer   start-->
 		<?php include("include/footer.php");?>
 		<!--	Footer   start-->
-
-
+        
+        <!-- Scroll to top --> 
+        <a href="#" class="bg-secondary text-white hover-text-secondary" id="scroll"><i class="fas fa-angle-up"></i></a> 
+        <!-- End Scroll To top --> 
+    </div>
+</div>
+<!-- Wrapper End --> 
 
 <!--	Js Link
 ============================================================--> 
@@ -196,15 +204,22 @@ include("config.php");
 <script src="js/layerslider.kreaturamedia.jquery.js"></script> 
 <!--jQuery Layer Slider --> 
 <script src="js/popper.min.js"></script> 
-<script src="js/bootstrap.min.js"></script> 
+<script src="js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script src="js/owl.carousel.min.js"></script> 
 <script src="js/tmpl.js"></script> 
 <script src="js/jquery.dependClass-0.1.js"></script> 
 <script src="js/draggable-0.1.js"></script> 
 <script src="js/jquery.slider.js"></script> 
 <script src="js/wow.js"></script> 
-
+<script src="js/jquery.cookie.js"></script> 
 <script src="js/custom.js"></script>
+<script>
+  $( function() {
+    $( "#datepicker" ).datepicker();
+    $( "#datepicker" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+  } );
+  </script>
 </body>
-
 </html>
