@@ -120,24 +120,25 @@ include("config.php");
                             <div class="col-md-6">
                                 <div class="bg-primary d-table px-3 py-2 rounded text-white text-capitalize">For <?php echo $row['5'];?></div>
                                 <h5 class="mt-2 text-secondary text-capitalize"><?php echo $row['1'];?></h5>
-                                <span class="mb-sm-20 d-block text-capitalize"><i class="fas fa-map-marker-alt text-primary font-12"></i> &nbsp;<?php echo $row['14'];?></span>
+                                <span class="mb-sm-20 d-block text-capitalize"><i class="fas fa-map-marker-alt text-primary font-12"></i> &nbsp;<?php echo $row['10'];?></span>
 							</div>
                             <div class="col-md-6">
-                                <div class="text-primary text-left h5 my-2 text-md-right">$<?php echo $row['13'];?></div>
+                                <div class="text-primary text-left h5 my-2 text-md-right">$<?php echo $row['8'];?></div>
                                 <div class="text-left text-md-right">Price</div>
                             </div>
                         </div>
                         <div class="property-details">
+                             
                             <div class="bg-gray property-quantity px-4 pt-4 w-100">
                                 <ul>
-                                    <li><span class="text-secondary"><?php echo $row['12'];?></span> Sqft</li>
-                                    <li><span class="text-secondary"><?php echo $row['6'];?></span> Bedroom</li>
+                                    <li><span class="text-secondary"><?php echo $row['7'];?></span> Sqft</li>
+                                    <li><span class="text-secondary"><?php echo $row['5'];?></span> Bedroom</li>
                                     <li><span class="text-secondary"><?php echo $row['7'];?></span> Bathroom</li>
                                     <li><span class="text-secondary"><?php echo $row['8'];?></span> Balcony</li>
                                     <li><span class="text-secondary"><?php echo $row['10'];?></span> Hall</li>
                                     <li><span class="text-secondary"><?php echo $row['9'];?></span> Kitchen</li>
                                 </ul>
-                            </div>
+                        </div>
                             <h4 class="text-secondary my-4">Description</h4>
                             <p><?php echo $row['2'];?></p>
                             
@@ -146,22 +147,22 @@ include("config.php");
                                 <table class="w-100">
                                     <tbody>
                                         <tr>
-                                            <td>BHK :</td>
+                                            <td>Type:</td>
                                             <td class="text-capitalize"><?php echo $row['4'];?></td>
-                                            <td>Property Type :</td>
-                                            <td class="text-capitalize"><?php echo $row['3'];?></td>
+                                            <td>Status :</td>
+                                            <td class="text-capitalize"><?php echo $row['18'];?></td>
                                         </tr>
                                         <tr>
                                             <td>Floor :</td>
-                                            <td class="text-capitalize"><?php echo $row['11'];?></td>
-                                            <td>Total Floor :</td>
-                                            <td class="text-capitalize"><?php echo $row['28'];?></td>
+                                            <td class="text-capitalize"><?php echo $row['6'];?></td>
+                                            <td>Beds :</td>
+                                            <td class="text-capitalize"><?php echo $row['5'];?></td>
                                         </tr>
                                         <tr>
                                             <td>City :</td>
-                                            <td class="text-capitalize"><?php echo $row['15'];?></td>
+                                            <td class="text-capitalize"><?php echo $row['10'];?></td>
                                             <td>State :</td>
-                                            <td class="text-capitalize"><?php echo $row['16'];?></td>
+                                            <td class="text-capitalize"><?php echo $row['11'];?></td>
                                         </tr>
                                         
                                     </tbody>
@@ -221,28 +222,15 @@ include("config.php");
                                                         </div>
                                                         <div class="col-md-12">
                                                             <div class="form-group">
-                                                                <input class="form-control bg-gray" id="email" name="email" placeholder="Email" type="text">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
                                                                 <input class="form-control bg-gray" id="phone" name="phone" placeholder="Phone" type="text">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-12">
-                                                            <button type="submit" id="send" value="submit" class="btn btn-primary">Send Message</button>
+                                                            <button type="submit" id="send" value="submit" class="btn btn-primary">Request Callback</button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-7">
-                                                    <div class="row">
-                                                        <div class="col-md-12 col-lg-12">
-                                                            <div class="form-group">
-                                                                <textarea class="form-control bg-gray mt-sm-20" id="massage" name="massage" cols="30" rows="7" placeholder="Message"></textarea>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                
                                             </div>
                                         </form>
                                     </div>
@@ -321,9 +309,9 @@ include("config.php");
 										while($row=mysqli_fetch_array($query))
 										{
 								?>
-                                <li> <img src="admin/property/<?php echo $row['18'];?>" alt="pimage">
+                                <li> <img src="admin/property/<?php echo $row['12'];?>" alt="pimage">
                                     <h6 class="text-secondary hover-text-primary text-capitalize"><a href="propertydetail.php?pid=<?php echo $row['0'];?>"><?php echo $row['1'];?></a></h6>
-                                    <span class="font-14"><i class="fas fa-map-marker-alt icon-primary icon-small"></i> <?php echo $row['14'];?></span>
+                                    <span class="font-14"><i class="fas fa-map-marker-alt icon-primary icon-small"></i> <?php echo $row['9'];?></span>
                                     
                                 </li>
                                 <?php } ?>
