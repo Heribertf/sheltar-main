@@ -32,6 +32,7 @@ if(isset($_POST['send'])) {
         $error = "<p class='alert alert-warning'>Please fill in all the fields</p>";
     }
 }
+
 ?>
 
 <!DOCTYPE html>
