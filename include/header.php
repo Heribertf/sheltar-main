@@ -54,10 +54,7 @@
 										<?php } ?>
 										
                                     </ul>
-                                    
-                                    <?php if(isset($_SESSION['utype']) && ($_SESSION['utype'] == 'agent' || $_SESSION['utype'] == 'builder')) { ?>
-                                    <a class="btn btn-primary d-none d-xl-block" href="submitproperty.php">Submit Property</a> 
-                                    <?php } ?>
+                                        <a class="btn btn-primary d-none d-xl-block" href="submitproperty.php">Submit Property</a>
                                 </div>
                             </nav>
                         </div>
