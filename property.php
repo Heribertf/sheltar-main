@@ -108,7 +108,7 @@ include("config.php");
                                             <h5 class="text-secondary hover-text-primary mb-2 text-capitalize"><a href="propertydetail.php?pid=<?php echo $row['0'];?>"><?php echo $row['1'];?></a></h5></div>
                                         <div class="px-4 pb-4 d-inline-block w-100">
                                             <div class="float-left text-capitalize"><i class="fas fa-user text-primary mr-1"></i>By : <?php echo $row['uname'];?></div>
-                                            <div class="float-right"><i class="far fa-calendar-alt text-primary mr-1"></i> 6 Months Ago</div>
+                                            <div class="float-right"><i class="far fa-calendar-alt text-primary mr-1"></i> 6 Days Ago</div>
                                         </div>
                                     </div>
                                 </div>
@@ -143,18 +143,19 @@ include("config.php");
                             <h4 class="double-down-line-left text-secondary position-relative pb-4 mb-4">Recent Properties Added</h4>
                             <ul class="property_list_widget">
 							
-								<?php 
-								$query=mysqli_query($con,"SELECT * FROM `property` ORDER BY date DESC LIMIT 6");
-										while($row=mysqli_fetch_array($query))
-										{
-								?>
-                                <li> <img src="admin/property/<?php echo $row['14'];?>" alt="pimage">
-                                    <h6 class="text-secondary hover-text-primary text-capitalize"><a href="propertydetail.php?pid=<?php echo $row['0'];?>"><?php echo $row['1'];?></a></h6></span>
-                                    
-                                </li>
-                                <?php } ?>
+                            <?php 
+                            $query=mysqli_query($con,"SELECT * FROM `property` ORDER BY date DESC LIMIT 6");
+                                    while($row=mysqli_fetch_array($query))
+                                    {
+                            ?>
+                            <li> <img src="admin/property/<?php echo $row['12'];?>" alt="pimage">
+                                <h6 class="text-secondary hover-text-primary text-capitalize"><a href="propertydetail.php?pid=<?php echo $row['0'];?>"><?php echo $row['1'];?></a></h6>
+                                <span class="font-14"><i class="fas fa-map-marker-alt icon-primary icon-small"></i> <?php echo $row['9'];?></span>
+                                
+                            </li>
+                            <?php } ?>
 
-                            </ul>
+                        </ul>
                         </div>
                     </div>
                     
