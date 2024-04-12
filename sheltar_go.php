@@ -21,8 +21,10 @@ if(isset($_POST['send'])) {
 
         // Execute the prepared statement
         if(mysqli_stmt_execute($stmt)) {
-            $msg = "<p class='alert alert-success'>Quote Sent Successfully</p>";
-        } else {
+           // Redirect to Quoatation Page
+           header("location:quotation.php");
+        }
+         else{
             $error = "<p class='alert alert-warning'>Quote Request Not Sent Successfully</p>";
         }
 
