@@ -106,6 +106,62 @@ include("config.php");
             </div>
         </div>
         <!--	Banner End  -->
+
+         <!--	Recent Properties  -->
+         <div class="full-row">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="text-secondary double-down-line text-center mb-4">Recent Properties</h2>
+                    </div>
+                    <!--- <div class="col-md-6">
+                        <ul class="nav property-btn float-right" id="pills-tab" role="tablist">
+                            <li class="nav-item"> <a class="nav-link py-3 active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">New</a> </li>
+                            <li class="nav-item"> <a class="nav-link py-3" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Featured</a> </li>
+                            <li class="nav-item"> <a class="nav-link py-3" id="pills-contact-tab2" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Top Sale</a> </li>
+                            <li class="nav-item"> <a class="nav-link py-3" id="pills-contact-tab3" data-toggle="pill" href="#pills-resturant" role="tab" aria-controls="pills-contact" aria-selected="false">Best Sale</a> </li>
+                        </ul>
+                    </div> --->
+                    <div class="col-md-12">
+                        <div class="tab-content mt-4" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home">
+                                <div class="row">
+								
+									<?php $query=mysqli_query($con,"SELECT property.*, user.uname,user.utype,user.uimage FROM `property`,`user` WHERE property.uid=user.uid ORDER BY date DESC LIMIT 9");
+										while($row=mysqli_fetch_array($query))
+										{
+									?>
+                                    <div class="col-md-6 col-lg-4">
+                                        <div class="featured-thumb hover-zoomer mb-4">
+                                            <div class="overlay-black overflow-hidden position-relative">
+                                            <img src="admin/property/<?php echo $row['13'];?>" alt="pimage" >
+                                                <div class="featured bg-primary text-white text-capitalize">For <?php echo $row['4'];?> </div>
+                                                <div class="sale bg-secondary text-white text-capitalize"><i class="fas fa-bed" style="color: green;"></i> Bed <?php echo $row['5'];?></div>
+                                                <div class="price text-primary"><b>$<?php echo $row['8'];?> </b><span class="text-white"><?php echo $row['7'];?> Sqft</span></div>
+                                            </div>
+                                            <div class="featured-thumb-data shadow-one">
+                                                <div class="p-3">
+                                                    <h5 class="text-secondary hover-text-primary mb-2 text-capitalize"><a href="propertydetail.php?pid=<?php echo $row['0'];?>"><?php echo $row['1'];?></a></h5></div>
+                                                <div class="bg-gray quantity px-3 pt-3">
+                                                   <span class="location text-capitalize"><i class="fas fa-map-marker-alt text-primary"></i> <?php echo $row['9'];?></span>
+                                                </div>
+                                                <div class="p-4 d-inline-block w-100">
+                                                    <div class="float-left text-capitalize"><i class="fas fa-user text-primary mr-1"></i>By : <?php echo $row['uname'];?></div>
+                                                    <div class="float-right"><i class="far fa-calendar-alt text-primary mr-1"></i> 6 Days Ago</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+									<?php } ?>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<!--	Recent Properties  -->
         
          <!--	Text Block One
 		======================================================-->
@@ -144,64 +200,7 @@ include("config.php");
 
 
 		
-        <!--	Recent Properties  -->
-        <div class="full-row">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h2 class="text-secondary double-down-line text-center mb-4">Recent Property</h2>
-                    </div>
-                    <!--- <div class="col-md-6">
-                        <ul class="nav property-btn float-right" id="pills-tab" role="tablist">
-                            <li class="nav-item"> <a class="nav-link py-3 active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">New</a> </li>
-                            <li class="nav-item"> <a class="nav-link py-3" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Featured</a> </li>
-                            <li class="nav-item"> <a class="nav-link py-3" id="pills-contact-tab2" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Top Sale</a> </li>
-                            <li class="nav-item"> <a class="nav-link py-3" id="pills-contact-tab3" data-toggle="pill" href="#pills-resturant" role="tab" aria-controls="pills-contact" aria-selected="false">Best Sale</a> </li>
-                        </ul>
-                    </div> --->
-                    <div class="col-md-12">
-                        <div class="tab-content mt-4" id="pills-tabContent">
-                            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home">
-                                <div class="row">
-								
-									<?php $query=mysqli_query($con,"SELECT property.*, user.uname,user.utype,user.uimage FROM `property`,`user` WHERE property.uid=user.uid ORDER BY date DESC LIMIT 9");
-										while($row=mysqli_fetch_array($query))
-										{
-									?>
-								
-                                    <div class="col-md-6 col-lg-4">
-                                        <div class="featured-thumb hover-zoomer mb-4">
-                                            <div class="overlay-black overflow-hidden position-relative"> <img src="admin/property/<?php echo $row['13'];?>" alt="pimage">
-                                                <div class="featured bg-primary text-white">New</div>
-                                                <div class="sale bg-secondary text-white text-capitalize">For <?php echo $row['5'];?></div>
-                                                <div class="price text-primary"><b>$<?php echo $row['8'];?> </b><span class="text-white"><?php echo $row['7'];?> Sqft</span></div>
-                                            </div>
-                                            <div class="featured-thumb-data shadow-one">
-                                                <div class="p-3">
-                                                    <h5 class="text-secondary hover-text-primary mb-2 text-capitalize"><a href="propertydetail.php?pid=<?php echo $row['0'];?>"><?php echo $row['1'];?></a></h5></div>
-                                                <div class="bg-gray quantity px-4 pt-4">
-                                                   <span class="location text-capitalize"><i class="fas fa-map-marker-alt text-primary"></i> <?php echo $row['9'];?></span>
-                                                </div>
-                                                <div class="p-4 d-inline-block w-100">
-                                                    <div class="float-left text-capitalize"><i class="fas fa-user text-primary mr-1"></i>By : <?php echo $row['uname'];?></div>
-                                                    <div class="float-right"><i class="far fa-calendar-alt text-primary mr-1"></i> 6 Days Ago</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-									<?php } ?>
-
-                                </div>
-                            </div>
-                            
-                            
-                           
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-		<!--	Recent Properties  -->
+       
         
         <!--	Why Choose Us -->
         <div class="full-row living bg-one overlay-secondary-half" style="background-image: url('images/haddyliving.jpg'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
