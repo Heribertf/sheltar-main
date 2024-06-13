@@ -54,7 +54,8 @@
 										<?php } ?>
 										
                                     </ul>
-                                        <a class="btn btn-primary d-none d-xl-block" href="submitproperty.php">Submit Property</a>
+                                        <div><a class="btn btn-primary d-none d-xl-block m-3" href="request-property.php">Request Property</a></div>
+                                        <div><a class="btn btn-primary d-none d-xl-block" href="submitproperty.php">Submit Property</a></div>
                                 </div>
                             </nav>
                         </div>

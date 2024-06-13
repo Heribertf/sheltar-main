@@ -1,5 +1,8 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 require '/opt/lampp/htdocs/sheltar-main/vendor/autoload.php';
+include_once '/opt/lampp/htdocs/sheltar-main/configuration.php';
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -7,27 +10,29 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
-function sendConfirmationEmail($client_email, $quote, $client_name)
+$smtpUser = $config["smtp"]["smtpUsername"];
+$smtpPass = $config["smtp"]["smtpPass"];
+
+function sendConfirmationEmail($client_email, $quote, $client_name, $smtpUser, $smtpPass)
 {
     date_default_timezone_set('Africa/Nairobi');
-    include_once './configuration.php';
 
     $mail = new PHPMailer(true);
 
     try {
-        $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+        $mail->SMTPDebug = SMTP::DEBUG_OFF;
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = $config["smtp"]["smtpUsername"];
-        $mail->Password = $config["smtp"]["smtpPass"];
+        $mail->Username = $smtpUser;
+        $mail->Password = $smtpPass;
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         //$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // TLS encryption
         //$mail->Port = 587; // Port for TLS
         $mail->Port = 465; // Port for SMTPS
-        $mail->setFrom($config["smtp"]["smtpUsername"], 'Sheltar Properties');
+        $mail->setFrom($smtpUser, 'Sheltar Properties');
         $mail->addAddress($client_email, $client_name);
-        $mail->addReplyTo($config["smtp"]["smtpUsername"], 'Sheltar Properties');
+        $mail->addReplyTo($smtpUser, 'Sheltar Properties');
 
         $mail->isHTML(true);
         $mail->Subject = 'Moving Quote Request';
@@ -147,10 +152,9 @@ function sendConfirmationEmail($client_email, $quote, $client_name)
     }
 }
 
-function notifyMover($client_name, $client_email, $client_phone, $mover_email, $mover_name, $current_address, $destination_address, $moving_date, $rooms, $additional_services, $quote, $distance)
+function notifyMover($client_name, $client_email, $client_phone, $mover_email, $mover_name, $current_address, $destination_address, $moving_date, $rooms, $additional_services, $quote, $distance, $smtpUser, $smtpPass)
 {
     date_default_timezone_set('Africa/Nairobi');
-    include_once './configuration.php';
 
     $mail = new PHPMailer(true);
 
@@ -159,13 +163,13 @@ function notifyMover($client_name, $client_email, $client_phone, $mover_email, $
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = $config["smtp"]["smtpUsername"];
-        $mail->Password = $config["smtp"]["smtpPass"];
+        $mail->Username = $smtpUser;
+        $mail->Password = $smtpPass;
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         //$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // TLS encryption
         //$mail->Port = 587; // Port for TLS
         $mail->Port = 465; // Port for SMTPS
-        $mail->setFrom($config["smtp"]["smtpUsername"], 'Sheltar Properties');
+        $mail->setFrom($smtpUser, 'Sheltar Properties');
         $mail->addAddress($mover_email, $mover_name);
         $mail->addReplyTo($client_email, $client_name);
         //$mail->addCC('xxxx@gmail.com', 'xxx xxx');
@@ -296,7 +300,22 @@ $channel = $connection->channel();
 $channel->queue_declare('moving_email_queue', false, true, false, false);
 echo ' [*] Waiting for messages. To exit press CTRL+C', "\n";
 
-$callback = function ($msg) {
+function checkQueueStatus($channel, $queueName)
+{
+    list($queue, $messageCount, $consumerCount) = $channel->queue_declare($queueName, true);
+    return $messageCount;
+}
+
+$messageCount = checkQueueStatus($channel, 'moving_email_queue');
+
+if ($messageCount == 0) {
+    echo "No emails found in queue\n";
+    $channel->close();
+    $connection->close();
+    exit;
+}
+
+$callback = function ($msg) use ($smtpUser, $smtpPass) {
     $data = json_decode($msg->body, true);
     $clientName = $data['clientName'];
     $clientEmail = $data['clientEmail'];
@@ -311,9 +330,8 @@ $callback = function ($msg) {
     $moverEmail = $data['moverEmail'];
     $moverName = $data['moverName'];
 
-
-    $confirmationEmail = sendConfirmationEmail($clientEmail, $quote, $clientName);
-    $notifyMover = notifyMover($clientName, $clientEmail, $clientPhone, $moverEmail, $moverName, $currentAddress, $destinationAddress, $movingDate, $rooms, $additionalServices, $quote, $distance);
+    $confirmationEmail = sendConfirmationEmail($clientEmail, $quote, $clientName, $smtpUser, $smtpPass);
+    $notifyMover = notifyMover($clientName, $clientEmail, $clientPhone, $moverEmail, $moverName, $currentAddress, $destinationAddress, $movingDate, $rooms, $additionalServices, $quote, $distance, $smtpUser, $smtpPass);
 
     if ($confirmationEmail && $notifyMover) {
         echo " [x] Emails sent successfully\n";
@@ -327,18 +345,8 @@ $callback = function ($msg) {
 $channel->basic_qos(null, 1, null);
 $channel->basic_consume('moving_email_queue', '', false, false, false, false, $callback);
 
-function checkQueueStatus($channel, $queueName)
-{
-    list($queue, $messageCount, $consumerCount) = $channel->queue_declare($queueName, true);
-    return $messageCount;
-}
-
-while (true) {
-    $channel->wait(null, false, 1); // Timeout set to 1 second
-    $messageCount = checkQueueStatus($channel, 'moving_email_queue');
-    if ($messageCount == 0 && empty($channel->callbacks)) {
-        break;
-    }
+while (count($channel->callbacks)) {
+    $channel->wait();
 }
 
 $channel->close();

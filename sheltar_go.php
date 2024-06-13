@@ -11,8 +11,10 @@ include_once "./configuration.php";
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <script
-        src="https://maps.googleapis.com/maps/api/js?key=<?php echo $config["google"]["apiKey"]; ?>&libraries=places"></script>
+        src="https://maps.googleapis.com/maps/api/js?key=<?php echo $config["google"]["apiKey"]; ?>&libraries=places&components=country:KE"></script>
+
 
     <!-- Meta Tags -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -375,12 +377,14 @@ include_once "./configuration.php";
 
             let currentStep = 0;
 
+
             function initAutocomplete() {
                 const currentAddressInput = document.getElementById('current_address');
                 const destinationAddressInput = document.getElementById('destination_address');
 
                 const currentAddressAutocomplete = new google.maps.places.Autocomplete(currentAddressInput);
                 const destinationAddressAutocomplete = new google.maps.places.Autocomplete(destinationAddressInput);
+
 
                 currentAddressAutocomplete.setFields(['formatted_address']);
                 destinationAddressAutocomplete.setFields(['formatted_address']);
