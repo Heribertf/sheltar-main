@@ -146,42 +146,37 @@ include ("config.php");
                                                     <div class="featured bg-primary text-white text-capitalize">For
                                                         <?php echo $row['4']; ?>
                                                     </div>
-                                                    <div class="sale bg-secondary text-white text-capitalize"><i
-                                                            class="fas fa-bed" style="color: green;"></i> Bed
-                                                        <?php echo $row['5']; ?>
-                                                    </div>
-                                                    <div class="price text-primary"><b>$
-                                                            <?php echo $row['8']; ?>
-                                                        </b><span class="text-white">
-                                                            <?php echo $row['7']; ?> Sqft
-                                                        </span></div>
                                                 </div>
                                                 <div class="featured-thumb-data shadow-one">
                                                     <div class="p-3">
-                                                        <h5
-                                                            class="text-secondary hover-text-primary mb-2 text-capitalize">
-                                                            <a href="propertydetail.php?pid=<?php echo $row['0']; ?>">
-                                                                <?php echo $row['1']; ?>
-                                                            </a></h5>
-                                                    </div>
-                                                    <div class="bg-gray quantity px-3 pt-3">
-                                                        <span class="location text-capitalize"><i
-                                                                class="fas fa-map-marker-alt text-primary"></i>
-                                                            <?php echo $row['9']; ?>
-                                                        </span>
-                                                    </div>
-                                                    <div class="p-4 d-inline-block w-100">
-                                                        <div class="float-left text-capitalize"><i
-                                                                class="fas fa-user text-primary mr-1"></i>By :
-                                                            <?php echo $row['uname']; ?>
+                                                        <div class="p-3 text-primary"><b>Ksh.
+                                                                <?php echo $row['8']; ?>
+                                                            </b></div>
+                                                        <div class="px-3 text-green text-capitalize">
+                                                            <i class="fas fa-bed" style="color: #17c788;"></i>
+                                                            <?php echo $row['5']; ?> Bedroom
                                                         </div>
-                                                        <div class="float-right"><i
-                                                                class="far fa-calendar-alt text-primary mr-1"></i> 6
-                                                            Days Ago</div>
+                                                        <div class="bg-white quantity px-3 pt-3">
+                                                            <span class="location text-capitalize"><i
+                                                                    class="fas fa-map-marker-alt text-primary"></i>
+                                                                <?php echo $row['9']; ?>
+                                                            </span>
+                                                        </div>
+                                                        <div class="p-3 d-inline-block w-100">
+                                                            <div class="float-left text-capitalize">
+                                                                <i class="fas fa-user text-primary mr-1"></i> By:
+                                                                <?php echo $row['uname']; ?>
+                                                            </div>
+                                                            <div class="float-right">
+                                                                <i class="far fa-calendar-alt text-primary mr-1"></i> 6
+                                                                Days Ago
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+
                                         <?php } ?>
 
                                     </div>
@@ -505,7 +500,8 @@ include ("config.php");
                                                 <div class="p-4 bg-primary down-angle-white position-relative">
                                                     <p class="text-white"><i
                                                             class="fas fa-quote-left mr-2 text-white"></i><?php echo $row['2']; ?>.
-                                                        <i class="fas fa-quote-right mr-2 text-white"></i></p>
+                                                        <i class="fas fa-quote-right mr-2 text-white"></i>
+                                                    </p>
                                                 </div>
                                                 <div class="p-2 mt-4">
                                                     <span
