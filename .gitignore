@@ -1,5 +1,7 @@
 configuration.php
 sheltar-properties/client_secret_561946912453-r8uvu3vb53o8u5ima99g4f185efqurc1.apps.googleusercontent.com.json
 sheltar-properties/agent/Paystackresponse.json
+sheltar-properties/new-config.php
+sheltar-properties/config.php
 
 *.sql
