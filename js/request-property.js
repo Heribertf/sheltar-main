@@ -146,13 +146,20 @@ $(document).ready(function () {
                 } else {
                     Toastify({
                         text: response.message,
-                        duration: 3000,
+                        duration: 3000, // Duration in milliseconds
                         close: true,
                         gravity: "top",
                         position: "center",
                         stopOnFocus: true,
                         backgroundColor: "linear-gradient(to right, #FF3E4D, #FFA34F)",
                     }).showToast();
+
+                    setTimeout(function () {
+                        if (response.redirect) {
+                            window.location.href = response.redirect;
+                        }
+                    }, 3000);
+
                 }
 
             },

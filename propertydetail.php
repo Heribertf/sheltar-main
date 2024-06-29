@@ -1,357 +1,445 @@
-<?php 
-ini_set('session.cache_limiter','public');
+<?php
+ini_set('session.cache_limiter', 'public');
 session_cache_limiter(false);
 session_start();
-include("config.php");
-								
+include_once './connection1.php';
+include_once './connection2.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-<!-- Required meta tags -->
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<!-- Meta Tags -->
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="description" content="Homex template">
-<meta name="keywords" content="">
-<meta name="author" content="Unicoder">
-<link rel="shortcut icon" href="images/favicon.ico">
+    <!-- Meta Tags -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Homex template">
+    <meta name="keywords" content="">
+    <meta name="author" content="Unicoder">
+    <link rel="shortcut icon" href="images/favicon.ico">
 
-<!--	Fonts
-	========================================================-->
-<link href="https://fonts.googleapis.com/css?family=Muli:400,400i,500,600,700&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700" rel="stylesheet">
+    <!--	Fonts
+    ========================================================-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,500,600,700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700" rel="stylesheet">
 
-<!--	Css Link
-	========================================================-->
-<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="css/bootstrap-slider.css">
-<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
-<link rel="stylesheet" type="text/css" href="css/layerslider.css">
-<link rel="stylesheet" type="text/css" href="css/color.css" id="color-change">
-<link rel="stylesheet" type="text/css" href="css/owl.carousel.min.css">
-<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="fonts/flaticon/flaticon.css">
-<link rel="stylesheet" type="text/css" href="css/style.css">
+    <!--	Css Link
+    ========================================================-->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-slider.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="css/layerslider.css">
+    <link rel="stylesheet" type="text/css" href="css/color.css" id="color-change">
+    <link rel="stylesheet" type="text/css" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="fonts/flaticon/flaticon.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 
-<!--	Title
-	=========================================================-->
-<title>Homex - Real Estate Template</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+    <title>Property Details - Sheltar Properties</title>
+
+    <style>
+        #loader {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+        }
+
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #075C52;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-<!--	Page Loader
-=============================================================
-<div class="page-loader position-fixed z-index-9999 w-100 bg-white vh-100">
-	<div class="d-flex justify-content-center y-middle position-relative">
-	  <div class="spinner-border" role="status">
-		<span class="sr-only">Loading...</span>
-	  </div>
-	</div>
-</div>
---> 
 
+    <div id="page-wrapper">
+        <div class="row">
+            <!--	Header start  -->
+            <?php include ("include/header.php"); ?>
+            <!--	Header end  -->
 
-<div id="page-wrapper">
-    <div class="row"> 
-        <!--	Header start  -->
-		<?php include("include/header.php");?>
-        <!--	Header end  -->
-        
-        <!--	Banner   --->
-        <div class="banner-full-row page-banner" style="background-image:url('images/breadcromb.jpg');">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h2 class="page-name float-left text-white text-uppercase mt-1 mb-0"><b>Property Detail</b></h2>
-                    </div>
-                    <div class="col-md-6">
-                        <nav aria-label="breadcrumb" class="float-left float-md-right">
-                            <ol class="breadcrumb bg-transparent m-0 p-0">
-                                <li class="breadcrumb-item text-white"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Property Detail</li>
-                            </ol>
-                        </nav>
+            <!--	Banner   --->
+            <div class="banner-full-row page-banner" style="background-image:url('images/breadcromb.jpg');">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h2 class="page-name float-left text-white text-uppercase mt-1 mb-0"><b>Property Detail</b>
+                            </h2>
+                        </div>
+                        <div class="col-md-6">
+                            <nav aria-label="breadcrumb" class="float-left float-md-right">
+                                <ol class="breadcrumb bg-transparent m-0 p-0">
+                                    <li class="breadcrumb-item text-white"><a href="#">Home</a></li>
+                                    <li class="breadcrumb-item active">Property Detail</li>
+                                </ol>
+                            </nav>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-         <!--	Banner   --->
+            <!--	Banner   --->
 
-		
-        <div class="full-row">
-            <div class="container">
-                <div class="row">
-				
-					<?php
-						$id=$_REQUEST['pid']; 
-						$query=mysqli_query($con,"SELECT property.*, user.* FROM `property`,`user` WHERE property.uid=user.uid and pid='$id'");
-						while($row=mysqli_fetch_array($query))
-						{
-					  ?>
-				  
-                    <div class="col-lg-8">
 
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div id="single-property" style="width:1200px; height:700px; margin:30px auto 50px;"> 
-                                    <!-- Slide 1-->
-                                    <div class="ls-slide" data-ls="duration:7500; transition2d:5; kenburnszoom:in; kenburnsscale:1.2;"> <img width="1920" height="1080" src="admin/property/<?php echo $row['pimage1'];?>" class="ls-bg" alt="" /> </div>
-                                    
-                                    <!-- Slide 2-->
-                                    <div class="ls-slide" data-ls="duration:7500; transition2d:5; kenburnszoom:in; kenburnsscale:1.2;"> <img width="1920" height="1080" src="admin/property/<?php echo $row['pimage'];?>" class="ls-bg" alt="" /> </div>
-                                    
-                                    <!-- Slide 3-->
-                                    <div class="ls-slide" data-ls="duration:7500; transition2d:5; kenburnszoom:in; kenburnsscale:1.2;"> <img width="1920" height="1080" src="admin/property/<?php echo $row['pimage2'];?>" class="ls-bg" alt="" /> </div>
-									
-									<!-- Slide 4-->
-									<div class="ls-slide" data-ls="duration:7500; transition2d:5; kenburnszoom:in; kenburnsscale:1.2;"> <img width="1920" height="1080" src="admin/property/<?php echo $row['pimage3'];?>" class="ls-bg" alt="" /> </div>
-									
-									<!-- Slide 5-->
-									<div class="ls-slide" data-ls="duration:7500; transition2d:5; kenburnszoom:in; kenburnsscale:1.2;"> <img width="1920" height="1080" src="admin/property/<?php echo $row['pimage4'];?>" class="ls-bg" alt="" /> </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <div class="col-md-6">
-                                <div class="bg-primary d-table px-3 py-2 rounded text-white text-capitalize">For <?php echo $row['5'];?></div>
-                                <h5 class="mt-2 text-secondary text-capitalize"><?php echo $row['1'];?></h5>
-                                <span class="mb-sm-20 d-block text-capitalize"><i class="fas fa-map-marker-alt text-primary font-12"></i> &nbsp;<?php echo $row['10'];?></span>
-							</div>
-                            <div class="col-md-6">
-                                <div class="text-primary text-left h5 my-2 text-md-right">$<?php echo $row['8'];?></div>
-                                <div class="text-left text-md-right">Price</div>
-                            </div>
-                        </div>
-                        <div class="property-details">
-                             
-                            <div class="bg-gray property-quantity px-4 pt-4 w-100">
-                                <ul>
-                                    <li><span class="text-secondary"><?php echo $row['7'];?></span> Sqft</li>
-                                    <li><span class="text-secondary"><?php echo $row['5'];?></span> Bedroom</li>
-                                    <li><span class="text-secondary"><?php echo $row['7'];?></span> Bathroom</li>
-                                    <li><span class="text-secondary"><?php echo $row['8'];?></span> Balcony</li>
-                                    <li><span class="text-secondary"><?php echo $row['10'];?></span> Hall</li>
-                                    <li><span class="text-secondary"><?php echo $row['9'];?></span> Kitchen</li>
-                                </ul>
-                        </div>
-                            <h4 class="text-secondary my-4">Description</h4>
-                            <p><?php echo $row['2'];?></p>
-                            
-                            <h5 class="mt-5 mb-4 text-secondary">Property Summary</h5>
-                            <div  class="table-striped font-14 pb-2">
-                                <table class="w-100">
-                                    <tbody>
-                                        <tr>
-                                            <td>Type:</td>
-                                            <td class="text-capitalize"><?php echo $row['4'];?></td>
-                                            <td>Status :</td>
-                                            <td class="text-capitalize"><?php echo $row['18'];?></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Floor :</td>
-                                            <td class="text-capitalize"><?php echo $row['6'];?></td>
-                                            <td>Beds :</td>
-                                            <td class="text-capitalize"><?php echo $row['5'];?></td>
-                                        </tr>
-                                        <tr>
-                                            <td>City :</td>
-                                            <td class="text-capitalize"><?php echo $row['10'];?></td>
-                                            <td>State :</td>
-                                            <td class="text-capitalize"><?php echo $row['11'];?></td>
-                                        </tr>
-                                        
-                                    </tbody>
-                                </table>
-                            </div>
-                            <h5 class="mt-5 mb-4 text-secondary">Features</h5>
-                            <div class="row">
-								<?php echo $row['17'];?>
-								
-                            </div>   
-							
-                            <h5 class="mt-5 mb-4 text-secondary">Floor Plans</h5>
-                            <div class="accordion" id="accordionExample">
-                                <button class="bg-gray hover-bg-primary hover-text-white text-ordinary py-3 px-4 mb-1 w-100 text-left rounded position-relative" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> Floor Plans </button>
-                                <div id="collapseOne" class="collapse show p-4" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                    <img src="admin/property/<?php echo $row['25'];?>" alt="Not Available"> </div>
-                                <button class="bg-gray hover-bg-primary hover-text-white text-ordinary py-3 px-4 mb-1 w-100 text-left rounded position-relative collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Basement Floor</button>
-                                <div id="collapseTwo" class="collapse p-4" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                                    <img src="admin/property/<?php echo $row['26'];?>" alt="Not Available"> </div>
-                                <button class="bg-gray hover-bg-primary hover-text-white text-ordinary py-3 px-4 mb-1 w-100 text-left rounded position-relative collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">Ground Floor</button>
-                                <div id="collapseThree" class="collapse p-4" aria-labelledby="headingThree" data-parent="#accordionExample">
-                                    <img src="admin/property/<?php echo $row['27'];?>" alt="Not Available"> </div>
-                            </div>
+            <div class="full-row">
+                <div class="container">
+                    <div class="row">
 
-                            <h5 class="mt-5 mb-4 text-secondary double-down-line-left position-relative">Contact Agent</h5>
-                            <div class="agent-contact pt-60">
-                                <div class="row">
-                                    <div class="col-sm-4 col-lg-3"> <img src="admin/user/<?php echo $row['uimage']; ?>" alt="" height="200" width="170"> </div>
-                                    <div class="col-sm-8 col-lg-9">
-                                        <div class="agent-data text-ordinary mt-sm-20">
-                                            <h6 class="text-primary text-capitalize"><?php echo $row['uname'];?></h6>
-                                            <ul class="mb-3">
-                                                <li><?php echo $row['uphone'];?></li>
-                                                <li><?php echo $row['uemail'];?></li>
-                                            </ul>
-                                            
-                                            <div class="mt-3 text-secondary hover-text-primary">
-                                                <ul>
-                                                    <li class="float-left mr-3"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                                    <li class="float-left mr-3"><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                                    <li class="float-left mr-3"><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
-                                                    <li class="float-left mr-3"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                                                    <li class="float-left mr-3"><a href="#"><i class="fas fa-rss"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 col-lg-12">
-                                        <form class="bg-gray-form mt-5" action="#" method="post">
+                        <div id="loader">
+                            <div class="loader"></div>
+                        </div>
+
+                        <?php
+                        $listing_id = $_GET['pid'];
+                        $query = "SELECT pl.listing_id, pl.property_name, 
+                                            CASE 
+                                                WHEN pl.listing_type = 1 THEN 'For Rent'
+                                                WHEN pl.listing_type = 2 THEN 'For Sale'
+                                            END AS listing_type,
+                                            CASE 
+                                                WHEN pl.property_use = 1 THEN 'Residential'
+                                                WHEN pl.property_use = 2 THEN 'Commercial'
+                                            END AS property_use,
+                                            CASE 
+                                                WHEN pl.property_status = 1 THEN 'Unfurnished'
+                                                WHEN pl.property_status = 2 THEN 'Furnished'
+                                            END AS property_status,
+                                            CASE 
+                                                WHEN pl.property_type = 1 THEN 'Apartment'
+                                                WHEN pl.property_type = 2 THEN 'Bungalow'
+                                                WHEN pl.property_type = 3 THEN 'Massionatte'
+                                            END AS property_type, pl.bedroom_count, pl.unit_price, pl.property_description, pl.features, pl.image_paths, pl.city, pl.address, DATE_FORMAT(pl.added, '%d-%b-%Y') AS dateAdded,
+                                        CONCAT(u.first_name, ' ', u.last_name) AS agentName, u.phone, u.email, u.profileImage
+                                        FROM 
+                                            property_listing pl
+                                        LEFT JOIN
+                                            users u ON pl.user_id = u.user_id
+                                        WHERE pl.listing_id = ?
+                                        ORDER BY pl.added DESC";
+
+                        if ($result = mysqli_prepare($conn, $query)) {
+                            mysqli_stmt_bind_param($result, "i", $listing_id);
+                            mysqli_stmt_execute($result);
+
+                            mysqli_stmt_bind_result($result, $listingId, $propertyName, $listingType, $proertyUse, $propertyStatus, $propertyType, $bedrooms, $price, $description, $features, $images, $city, $address, $dateAdded, $agentName, $agentPhone, $agentEmail, $agentProfile);
+
+
+                            if (mysqli_stmt_fetch($result)) {
+                                $customMessage = "Hi there, I am interested in your property " . $propertyName . ", listed on http://localhost/sheltar-main/propertydetail.php?pid=" . $listingId;
+                                do {
+
+                                    $duration = '';
+                                    $propertyFeatures = preg_split('/\r\n|\r|\n|,/', $features);
+                                    $imagePaths = preg_split('/\s*,\s*/', $images);
+                                    if ($listingType == 'For Rent') {
+                                        $duration = ' / month';
+                                    }
+
+                                    echo '
+                                            <div class="col-lg-8">
+
                                             <div class="row">
-                                                <div class="col-md-5">
+                                                <div class="col-md-12">
+                                                    <div id="single-property" style="width:1200px; height:700px; margin:30px auto 50px;">';
+
+                                    foreach ($imagePaths as $imagePath) {
+                                        echo '<div class="ls-slide" data-ls="duration:7500; transition2d:5; kenburnszoom:in; kenburnsscale:1.2;"> <img width="1920" height="1080" src="sheltar-properties/uploads/property-images/' . htmlspecialchars($imagePath) . '" class="ls-bg" alt="" /> </div>';
+                                    }
+
+                                    echo '</div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <div class="col-md-6">
+                                                    <div class="bg-primary d-table px-3 py-2 rounded text-white text-capitalize">' . htmlspecialchars($listingType) . '</div>
+                                                    <h5 class="mt-2 text-secondary text-capitalize">' . htmlspecialchars($propertyName) . '</h5>
+                                                    <span class="mb-sm-20 d-block text-capitalize"><i class="fas fa-map-marker-alt text-primary font-12"></i> &nbsp;' . htmlspecialchars($address) . ', ' . htmlspecialchars($city) . '</span>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="text-primary text-left h5 my-2 text-md-right">Ksh
+                                                    ' . number_format($price) . '<span class="text-sm">' . htmlspecialchars($duration) . '</span></div>
+                                                    <div class="text-left text-md-right">Price</div>
+                                                </div>
+                                            </div>
+                                            <div class="property-details">
+                                                 
+                                                <h4 class="text-secondary my-4">Description</h4>
+                                                <p>' . $description . '</p>
+                                                
+                                                <h5 class="mt-5 mb-4 text-secondary">Property Summary</h5>
+                                                <div  class="table-striped font-14 pb-2">
+                                                    <table class="w-100">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Type:</td>
+                                                                <td class="text-capitalize">' . htmlspecialchars($listingType) . '</td>
+                                                                <td>Status :</td>
+                                                                <td class="text-capitalize">Available</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Beds :</td>
+                                                                <td class="text-capitalize">' . htmlspecialchars($bedrooms) . '</td>
+                                                                <td>Baths :</td>
+                                                                <td class="text-capitalize"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>City :</td>
+                                                                <td class="text-capitalize">' . htmlspecialchars($city) . '</td>
+                                                                <td>Address :</td>
+                                                                <td class="text-capitalize">' . htmlspecialchars($address) . '</td>
+                                                            </tr>
+                                                            
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <h5 class="mt-5 mb-4 text-secondary">Features</h5>
+                                                <div class="row">
+                                                    <ul>';
+
+                                    foreach ($propertyFeatures as $propertyFeature) {
+                                        echo '    <li>• ' . htmlspecialchars($propertyFeature) . '</li>';
+                                    }
+
+                                    echo '</ul>
+                                                    
+                                                </div>
+                    
+                                                <h5 class="mt-5 mb-4 text-secondary double-down-line-left position-relative">Contact Agent</h5>
+                                                <div class="agent-contact pt-60">
                                                     <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <input class="form-control bg-gray" id="name" name="firstname" placeholder="Name" type="text">
+                                                        <div class="col-sm-4 col-lg-3"> <img src="sheltar-properties/uploads/profile-images/' . htmlspecialchars($agentProfile) . '" alt="agent profile" style="object-fit: cover;" height="200" width="170"> </div>
+                                                        <div class="col-sm-8 col-lg-9">
+                                                            <div class="agent-data text-ordinary mt-sm-20">
+                                                                <h6 class="text-primary text-capitalize">' . htmlspecialchars($agentName) . '</h6>
+                                                                <ul class="mb-3">
+                                                                    <li>' . htmlspecialchars($agentPhone) . '</li>
+                                                                    <li>' . htmlspecialchars($agentEmail) . '</li>
+                                                                </ul>
+                                                                
+                                                                <div class="mt-3 text-secondary hover-text-primary">
+                                                                    <ul>
+                                                                        <li class="float-left mr-3"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                                                        <li class="float-left mr-3"><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                                                        <li class="float-left mr-3"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                                                                    </ul>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <input class="form-control bg-gray" id="phone" name="phone" placeholder="Phone" type="text">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <button type="submit" id="send" value="submit" class="btn btn-primary">Request Callback</button>
+                                                        <div class="col-md-12 col-lg-12">
+                                                            <form class="bg-gray-form mt-5" method="post" enctype="multipart/form-data" id="request-callback">
+                                                                <div class="row">
+                                                                    <div class="col-md-5">
+                                                                        <div class="row">
+                                                                        <div>
+                                                                            <input type="hidden" name="agent-name" value="' . htmlspecialchars($agentName) . '"
+                                                                                readonly>
+                                                                            <input type="hidden" name="agent-email" value="' . htmlspecialchars($agentEmail) . '"
+                                                                                readonly>
+                                                                            <input type="hidden" name="property-name" value="' . htmlspecialchars($propertyName) . '"
+                                                                                readonly>
+                                                                            <input type="hidden" name="property-id" value="' . htmlspecialchars($listingId) . '"
+                                                                                readonly>
+
+                                                                        </div>
+                                                                            <div class="col-md-12">
+                                                                                <div class="form-group">
+                                                                                    <input class="form-control bg-gray" id="name" name="clientname" placeholder="Name" type="text" required>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-12">
+                                                                                <div class="form-group">
+                                                                                    <input class="form-control bg-gray" id="phone" name="clientphone" placeholder="Phone" type="text" required>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-12">
+                                                                                <button type="submit" id="send" value="submit" class="btn btn-primary">Request Callback</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    
+                                                                </div>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
                                             </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-					
-					<?php } ?>
-					
-                    <div class="col-lg-4">
-                        <h4 class="double-down-line-left text-secondary position-relative pb-4 mb-4 mt-md-50">Send Message</h4>
-                        <form method="post" action="#">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Enter Name">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Enter Email">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Enter Phone">
-                                    </div>
-                                </div>
-								<div class="col-md-12">
-                                    <div class="form-group">
-										<textarea class="form-control" placeholder="Enter Message"></textarea>
-                                    </div>
-                                </div>
-								
-                                <div class="col-md-12">
-                                    <div class="form-group mt-4">
-                                        <button type="submit" class="btn btn-primary w-100">Search Property</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                        <h4 class="double-down-line-left text-secondary position-relative pb-4 my-4">Instalment Calculator</h4>
-                        <form class="d-inline-block w-100" action="calc.php" method="post">
-                            <label class="sr-only">Property Amount</label>
-                            <div class="input-group mb-2 mr-sm-2">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">$</div>
-                                </div>
-                                <input type="text" class="form-control" name="amount" placeholder="Property Price">
-                            </div>
-                            <label class="sr-only">Month</label>
-                            <div class="input-group mb-2 mr-sm-2">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
-                                </div>
-                                <input type="text" class="form-control" name="month" placeholder="Duration Year">
-                            </div>
-                            <label class="sr-only">Interest Rate</label>
-                            <div class="input-group mb-2 mr-sm-2">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">%</div>
-                                </div>
-                                <input type="text" class="form-control" name="interest" placeholder="Interest Rate">
-                            </div>
-                            <button type="submit" value="submit" name="calc" class="btn btn-primary mt-4">Calclute Instalment</button>
-                        </form>
-                        <h4 class="double-down-line-left text-secondary position-relative pb-4 mb-4 mt-5">Featured Property</h4>
+                                        </div>
+                                                ';
 
-                        <div class="sidebar-widget mt-5">
-                            <h4 class="double-down-line-left text-secondary position-relative pb-4 mb-4">Recent Property Add</h4>
-                            <ul class="property_list_widget">
-							
-								<?php 
-								$query=mysqli_query($con,"SELECT * FROM `property` ORDER BY date DESC LIMIT 6");
-										while($row=mysqli_fetch_array($query))
-										{
-								?>
-                                <li> <img src="admin/property/<?php echo $row['12'];?>" alt="pimage">
-                                    <h6 class="text-secondary hover-text-primary text-capitalize"><a href="propertydetail.php?pid=<?php echo $row['0'];?>"><?php echo $row['1'];?></a></h6>
-                                    <span class="font-14"><i class="fas fa-map-marker-alt icon-primary icon-small"></i> <?php echo $row['9'];?></span>
-                                    
-                                </li>
-                                <?php } ?>
+                                } while (mysqli_stmt_fetch($result));
 
-                            </ul>
+                                mysqli_stmt_close($result);
+                            } else {
+                                echo '<div class="col-md-12" >
+                                                <p class="text-secondary" >Property not found!</p>
+                                            </div>';
+                            }
+                        } else {
+                            error_log("Error in prepared statement: " . mysqli_error($conn));
+                        }
+
+                        ?>
+
+
+
+                        <div class="col-lg-4">
+                            <h4 class="double-down-line-left text-secondary position-relative pb-4 mb-4 mt-md-50">Send
+                                Message to Agent</h4>
+                            <form method="post" enctype="multipart/form-data" id="contact-agent">
+                                <div class="row">
+                                    <div>
+                                        <input type="hidden" name="agent-name" value="<?php echo $agentName ?>"
+                                            readonly>
+                                        <input type="hidden" name="agent-email" value="<?php echo $agentEmail ?>"
+                                            readonly>
+                                        <input type="hidden" name="property-name" value="<?php echo $propertyName ?>"
+                                            readonly>
+                                        <input type="hidden" name="property-id" value="<?php echo $listingId ?>"
+                                            readonly>
+
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="client-name"
+                                                placeholder="Enter Your Name" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="client-email"
+                                                placeholder="Enter Your Email" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="client-phone"
+                                                placeholder="Enter Your Phone" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <textarea class="form-control" name="contact-message"
+                                                placeholder="Enter Message"
+                                                required>Hi there, I'd like to know more about this property. Please get in touch with me.</textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group mt-4">
+                                            <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <h4 class="double-down-line-left text-secondary position-relative pb-4 my-4">Message Agent
+                                on Whatsapp</h4>
+
+                            <a href="https://wa.me/<?php echo $agentPhone ?>?text=<?php echo $customMessage ?>"
+                                class="btn btn-primary mt-4"> <i class="fab fa-whatsapp"></i> Whatsapp</a>
+
+
+                            <div class="sidebar-widget mt-5">
+                                <h4 class="double-down-line-left text-secondary position-relative pb-4 mb-4">Recently
+                                    Added</h4>
+                                <ul class="property_list_widget">
+
+                                    <?php
+                                    $recentQuery = mysqli_query($conn, "SELECT listing_id, property_name, image_paths, city, address
+                                        FROM 
+                                            property_listing
+                                        WHERE listing_id != $listing_id
+                                        ORDER BY added DESC LIMIT 6");
+
+                                    while ($row = mysqli_fetch_array($recentQuery)) {
+                                        $imagePaths = preg_split('/\s*,\s*/', $row['image_paths']);
+
+                                        ?>
+                                    <li>
+                                        <a href="propertydetail.php?pid=<?php echo $row['listing_id']; ?>"><img
+                                                src="sheltar-properties/uploads/property-images/<?php echo $imagePaths[0]; ?>"
+                                                alt="property image"></a>
+                                        <h6 class="text-secondary hover-text-primary text-capitalize"><a
+                                                href="propertydetail.php?pid=<?php echo $row['listing_id']; ?>">
+                                                <?php echo $row['property_name']; ?>
+                                            </a></h6>
+                                        <span class="font-14"><i
+                                                class="fas fa-map-marker-alt icon-primary icon-small"></i>
+                                            <?php echo $row['address'] . ', ' . $row['city']; ?>
+                                        </span>
+
+                                    </li>
+                                    <?php } ?>
+
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!--	Footer   start-->
+            <?php include ("include/footer.php"); ?>
+            <!--	Footer   start-->
+
+
+            <!-- Scroll to top -->
+            <a href="#" class="bg-secondary text-white hover-text-secondary" id="scroll"><i
+                    class="fas fa-angle-up"></i></a>
+            <!-- End Scroll To top -->
         </div>
-
-         <!--	Footer   start-->
-		<?php include("include/footer.php");?>
-		<!--	Footer   start-->
-        
-        
-        <!-- Scroll to top --> 
-        <a href="#" class="bg-secondary text-white hover-text-secondary" id="scroll"><i class="fas fa-angle-up"></i></a> 
-        <!-- End Scroll To top --> 
     </div>
-</div>
-<!-- Wrapper End --> 
+    <!-- Wrapper End -->
 
-<!--	Js Link
-============================================================--> 
-<script src="js/jquery.min.js"></script> 
-<!--jQuery Layer Slider --> 
-<script src="js/greensock.js"></script> 
-<script src="js/layerslider.transitions.js"></script> 
-<script src="js/layerslider.kreaturamedia.jquery.js"></script> 
-<!--jQuery Layer Slider --> 
-<script src="js/popper.min.js"></script> 
-<script src="js/bootstrap.min.js"></script> 
-<script src="js/owl.carousel.min.js"></script> 
-<script src="js/tmpl.js"></script> 
-<script src="js/jquery.dependClass-0.1.js"></script> 
-<script src="js/draggable-0.1.js"></script> 
-<script src="js/jquery.slider.js"></script> 
-<script src="js/wow.js"></script> 
-<script src="js/custom.js"></script> 
+    <!--	Js Link
+============================================================-->
+    <script src="js/jquery.min.js"></script>
+    <!--jQuery Layer Slider -->
+    <script src="js/greensock.js"></script>
+    <script src="js/layerslider.transitions.js"></script>
+    <script src="js/layerslider.kreaturamedia.jquery.js"></script>
+    <!--jQuery Layer Slider -->
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/tmpl.js"></script>
+    <script src="js/jquery.dependClass-0.1.js"></script>
+    <script src="js/draggable-0.1.js"></script>
+    <script src="js/jquery.slider.js"></script>
+    <script src="js/wow.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="js/custom.js"></script>
+    <script src="js/contact.js"></script>
 
 </body>
 

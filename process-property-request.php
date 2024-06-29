@@ -1,15 +1,26 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-
 session_start();
+
 ob_start();
 header('Content-Type: application/json');
+
+if (!isset($_SESSION["uid"]) || !isset($_SESSION["uemail"]) || !isset($_SESSION["uname"])) {
+
+    $response = [
+        'success' => false,
+        'message' => 'Login first to request a property.',
+        'redirect' => 'login.php'
+    ];
+    echo json_encode($response);
+    exit;
+}
 
 require './vendor/autoload.php';
 
 include_once "./configuration.php";
-include_once "./connection.php";
+include_once "./connection2.php";
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -181,7 +192,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $query = "INSERT INTO property_request (user_id, property_category, property_type, rooms, min_price, max_price, location, property_details, contact) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    $stmt = $conn->prepare($query);
+    $stmt = $con->prepare($query);
     $stmt->bind_param("issiddsss", $userId, $category, $type, $rooms, $minPrice, $maxPrice, $location, $propertyDetails, $phone);
 
     if ($stmt->execute()) {
@@ -196,7 +207,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $stmt->close();
-    $conn->close();
+    $con->close();
 }
 
 function response_json($status, $message)

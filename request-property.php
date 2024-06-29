@@ -85,7 +85,8 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6">
-                            <h2 class="page-name float-left text-white text-uppercase mt-1 mb-0"><b>Submit Property</b>
+                            <h2 class="page-name float-left text-white text-uppercase mt-1 mb-0"><b>Submit Property
+                                    Request</b>
                             </h2>
                         </div>
                         <div class="col-md-6">

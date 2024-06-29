@@ -9,7 +9,7 @@ use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
 include_once "./configuration.php";
-include_once "./connection.php";
+include_once "./connection2.php";
 
 $google_maps_api_key = $config["google"]["apiKey"];
 $mover_email = "heribertfel20@gmail.com";
@@ -68,13 +68,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $query = "INSERT INTO moving_request (client_name, client_email, client_phone, current_address, destination_address, moving_date, rooms, additional_services, distance, quote) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    $stmt = $conn->prepare($query);
+    $stmt = $con->prepare($query);
     $stmt->bind_param("ssssssisdd", $name, $email, $phone, $current_address, $destination_address, $moving_date, $rooms, $additional_services, $distance, $quote);
 
     if ($stmt->execute()) {
 
         $moverQuery = "SELECT mover_name, mover_email FROM movers WHERE mover_id = 1 AND status = 1 AND delete_flag = 0";
-        $mover_stmt = mysqli_prepare($conn, $moverQuery);
+        $mover_stmt = mysqli_prepare($con, $moverQuery);
         mysqli_stmt_execute($mover_stmt);
         mysqli_stmt_store_result($mover_stmt);
 
@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $stmt->close();
-    $conn->close();
+    $con->close();
 }
 
 function get_distance($origin, $destination, $api_key)

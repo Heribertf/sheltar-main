@@ -1,10 +1,9 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 ini_set('session.cache_limiter', 'public');
 session_cache_limiter(false);
 session_start();
-include ("config.php");
+include_once './connection1.php';
+include_once './connection2.php';
 
 ?>
 <!DOCTYPE html>
@@ -43,15 +42,6 @@ include ("config.php");
 
 <body>
 
-    <!--	Page Loader  -->
-    <!--<div class="page-loader position-fixed z-index-9999 w-100 bg-white vh-100">
-    <div class="d-flex justify-content-center y-middle position-relative">
-      <div class="spinner-border" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
-    </div>
-</div>  -->
-    <!--	Page Loader  -->
 
     <div id="page-wrapper">
         <div class="row">
@@ -117,67 +107,131 @@ include ("config.php");
 
             <!--	Recent Properties  -->
             <div class="full-row">
+
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
                             <h2 class="text-secondary double-down-line text-center mb-4">Recent Properties</h2>
                         </div>
-                        <!--- <div class="col-md-6">
-                        <ul class="nav property-btn float-right" id="pills-tab" role="tablist">
-                            <li class="nav-item"> <a class="nav-link py-3 active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">New</a> </li>
-                            <li class="nav-item"> <a class="nav-link py-3" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Featured</a> </li>
-                            <li class="nav-item"> <a class="nav-link py-3" id="pills-contact-tab2" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Top Sale</a> </li>
-                            <li class="nav-item"> <a class="nav-link py-3" id="pills-contact-tab3" data-toggle="pill" href="#pills-resturant" role="tab" aria-controls="pills-contact" aria-selected="false">Best Sale</a> </li>
-                        </ul>
-                    </div> --->
+
                         <div class="col-md-12">
                             <div class="tab-content mt-4" id="pills-tabContent">
                                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
                                     aria-labelledby="pills-home">
                                     <div class="row">
 
-                                        <?php $query = mysqli_query($con, "SELECT property.*, user.uname,user.utype,user.uimage FROM `property`,`user` WHERE property.uid=user.uid ORDER BY date DESC LIMIT 9");
-                                        while ($row = mysqli_fetch_array($query)) {
-                                            ?>
-                                        <div class="col-md-6 col-lg-4">
-                                            <div class="featured-thumb hover-zoomer mb-4">
-                                                <div class="overlay-black overflow-hidden position-relative">
-                                                    <img src="admin/property/<?php echo $row['13']; ?>" alt="pimage">
-                                                    <div class="featured bg-primary text-white text-capitalize">For
-                                                        <?php echo $row['4']; ?>
-                                                    </div>
-                                                </div>
-                                                <div class="featured-thumb-data shadow-one">
-                                                    <div class="p-3">
-                                                        <div class="p-3 text-primary"><b>Ksh.
-                                                                <?php echo $row['8']; ?>
-                                                            </b></div>
-                                                        <div class="px-3 text-green text-capitalize">
-                                                            <i class="fas fa-bed" style="color: #17c788;"></i>
-                                                            <?php echo $row['5']; ?> Bedroom
-                                                        </div>
-                                                        <div class="bg-white quantity px-3 pt-3">
-                                                            <span class="location text-capitalize"><i
-                                                                    class="fas fa-map-marker-alt text-primary"></i>
-                                                                <?php echo $row['9']; ?>
-                                                            </span>
-                                                        </div>
-                                                        <div class="p-3 d-inline-block w-100">
-                                                            <div class="float-left text-capitalize">
-                                                                <i class="fas fa-user text-primary mr-1"></i> By:
-                                                                <?php echo $row['uname']; ?>
-                                                            </div>
-                                                            <div class="float-right">
-                                                                <i class="far fa-calendar-alt text-primary mr-1"></i> 6
-                                                                Days Ago
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <?php
+                                        $query = "SELECT pl.listing_id, pl.property_name, 
+                                                CASE 
+                                                    WHEN pl.listing_type = 1 THEN 'For Rent'
+                                                    WHEN pl.listing_type = 2 THEN 'For Sale'
+                                                END AS listing_type,
+                                                CASE 
+                                                    WHEN pl.property_use = 1 THEN 'Residential'
+                                                    WHEN pl.property_use = 2 THEN 'Commercial'
+                                                END AS property_use,
+                                                CASE 
+                                                    WHEN pl.property_status = 1 THEN 'Unfurnished'
+                                                    WHEN pl.property_status = 2 THEN 'Furnished'
+                                                END AS property_status,
+                                                CASE 
+                                                    WHEN pl.property_type = 1 THEN 'Apartment'
+                                                    WHEN pl.property_type = 2 THEN 'Bungalow'
+                                                    WHEN pl.property_type = 3 THEN 'Massionatte'
+                                                END AS property_type, pl.bedroom_count, pl.unit_price, pl.property_description, pl.features, pl.image_paths, pl.city, pl.address, DATE_FORMAT(pl.added, '%d-%b-%Y') AS dateAdded,
+                                            CONCAT(u.first_name, ' ', u.last_name) AS agentName, u.phone, u.email, u.profileImage
+                                            FROM 
+                                                property_listing pl
+                                            LEFT JOIN
+                                                users u ON pl.user_id = u.user_id
+                                            ORDER BY pl.added DESC LIMIT 6";
 
-                                        <?php } ?>
+                                        if ($result = mysqli_prepare($conn, $query)) {
+                                            mysqli_stmt_execute($result);
+
+                                            mysqli_stmt_bind_result($result, $listingId, $propertyName, $listingType, $proertyUse, $propertyStatus, $propertyType, $bedrooms, $price, $description, $features, $images, $city, $address, $dateAdded, $agentName, $agentPhone, $agentEmail, $agentProfile);
+
+
+                                            if (mysqli_stmt_fetch($result)) {
+                                                do {
+
+                                                    $dateAddedDateTime = DateTime::createFromFormat('d-M-Y', $dateAdded);
+
+                                                    $currentDateTime = new DateTime();
+
+                                                    $interval = $currentDateTime->diff($dateAddedDateTime);
+
+                                                    $daysDifference = $interval->days;
+
+
+                                                    $duration = '';
+                                                    $imagePaths = preg_split('/\s*,\s*/', $images);
+                                                    if ($listingType == 'For Rent') {
+                                                        $duration = ' / month';
+                                                    }
+
+                                                    echo '
+                                                        <div class="col-md-6 col-lg-4">
+                                                            <div class="featured-thumb hover-zoomer mb-4">
+                                                                <a href="propertydetail.php?pid=' . htmlspecialchars($listingId) . '">
+                                                                <div class="overlay-black overflow-hidden position-relative">
+                                                                    <img src="sheltar-properties/uploads/property-images/' . htmlspecialchars($imagePaths[0]) . '" alt="pimage">
+                                                                    <div class="featured bg-primary text-white text-capitalize">
+                                                                    ' . htmlspecialchars($listingType) . '
+                                                                    </div>
+                                                                </div>
+                                                                </a>
+                                                                <div class="featured-thumb-data shadow-one">
+                                                                    
+                                                                    <div class="p-3">
+                                                                        <div class="p-3">
+                                                                            <h5 class="text-secondary hover-text-primary text-capitalize">
+                                                                                <a
+                                                                                    href="propertydetail.php?pid=' . htmlspecialchars($listingId) . '">' . htmlspecialchars($propertyName) . '</a>
+                                                                            </h5>
+                                                                        </div>
+                                                                        <div class="p-3 text-primary"><b>Ksh.
+                                                                        ' . number_format($price, 2) . '<span class="text-sm">' . htmlspecialchars($duration) . '</span>
+                                                                            </b></div>
+                                                                        <div class="px-3 text-green text-capitalize">
+                                                                            <i class="fas fa-bed" style="color: #17c788;"></i>
+                                                                            ' . htmlspecialchars($bedrooms) . ' Bedroom
+                                                                        </div>
+                                                                        <div class="bg-white quantity px-3 pt-3">
+                                                                            <span class="location text-capitalize"><i
+                                                                                    class="fas fa-map-marker-alt text-primary"></i>
+                                                                                    ' . htmlspecialchars($address) . ', ' . htmlspecialchars($city) . '
+                                                                            </span>
+                                                                        </div>
+                                                                        <div class="p-3 d-inline-block w-100">
+                                                                            <div class="float-left text-capitalize">
+                                                                                <i class="fas fa-user text-primary mr-1"></i> By:
+                                                                                ' . htmlspecialchars($agentName) . '
+                                                                            </div>
+                                                                            <div class="float-right">
+                                                                                <i class="far fa-calendar-alt text-primary mr-1"></i>' . $daysDifference . '
+                                                                                Days Ago
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    ';
+
+                                                } while (mysqli_stmt_fetch($result));
+
+                                                mysqli_stmt_close($result);
+                                            } else {
+                                                echo '<tr><td colspan="5" class="text-center">No records found.</td></tr>';
+                                            }
+                                        } else {
+                                            error_log("Error in prepared statement: " . mysqli_error($conn));
+                                        }
+
+                                        mysqli_close($conn);
+
+                                        ?>
 
                                     </div>
                                 </div>
