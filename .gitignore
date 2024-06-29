@@ -5,3 +5,4 @@ sheltar-properties/new-config.php
 sheltar-main/sheltar-properties/config.php
 sheltar-main/sheltar-properties/new-config.php
 *.sql
+*config*
