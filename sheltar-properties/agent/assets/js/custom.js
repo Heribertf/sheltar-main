@@ -29,7 +29,7 @@ function payWithPaystack(e, btn) {
             });
         },
         callback: function (response) {
-            fetch('http://localhost/sheltar-properties/agent/verify-transaction', {
+            fetch('http://localhost/sheltar-main/sheltar-properties/agent/verify-transaction', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

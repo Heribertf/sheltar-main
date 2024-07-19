@@ -85,9 +85,9 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6">
-                            <h2 class="page-name float-left text-white text-uppercase mt-1 mb-0"><b>Submit Property
-                                    Request</b>
-                            </h2>
+                            <h4 class="page-name float-left text-white text-uppercase mt-1 mb-0"><b>Didn't find your
+                                    ideal property? Let us know and find it for you.</b>
+                            </h4>
                         </div>
                         <div class="col-md-6">
                             <nav aria-label="breadcrumb" class="float-left float-md-right">

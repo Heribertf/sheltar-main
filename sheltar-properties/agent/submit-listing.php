@@ -30,6 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $features = isset($_POST['features']) ? implode(',', $_POST['features']) : '';
     $city = $_POST['city'];
     $address = $_POST['address'];
+    $latitude = $_POST['latitude'];
+    $longitude = $_POST['longitude'];
     $userId = $_SESSION["id"];
 
     // Check if the agent is verified
@@ -134,10 +136,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($uploadSuccessful) {
         $imagePaths = implode(',', $uploadedImages);
 
-        $sql = "INSERT INTO property_listing (user_id, property_name, listing_type, property_use, property_status, property_type, bedroom_count, unit_price, property_description, features, image_paths, city, address)
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $sql = "INSERT INTO property_listing (user_id, property_name, listing_type, property_use, property_status, property_type, bedroom_count, unit_price, property_description, features, image_paths, city, address, latitude, longitude)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("isiiiiidsssss", $userId, $propertyName, $listingType, $propertyUse, $propertyStatus, $propertyType, $bedroomCount, $unitPrice, $propertyDescription, $features, $imagePaths, $city, $address);
+        $stmt->bind_param("isiiiiidsssssss", $userId, $propertyName, $listingType, $propertyUse, $propertyStatus, $propertyType, $bedroomCount, $unitPrice, $propertyDescription, $features, $imagePaths, $city, $address, $latitude, $longitude);
         if ($stmt->execute()) {
             $response = [
                 'success' => true,

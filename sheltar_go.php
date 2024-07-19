@@ -131,22 +131,42 @@ include_once "./configuration.php";
                 transform: rotate(360deg);
             }
         }
+
+
+        /* New section styling */
+        .content-section {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .image-container {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .text-container {
+            flex: 2;
+        }
+
+        .text-container h2 {
+            margin-top: 0;
+        }
+
+        .text-container p {
+            line-height: 1.6;
+        }
     </style>
 
 </head>
 
 <body>
-
-    <!--	Page Loader
-=============================================================
-<div class="page-loader position-fixed z-index-9999 w-100 bg-white vh-100">
-    <div class="d-flex justify-content-center y-middle position-relative">
-      <div class="spinner-border" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
-    </div>
-</div>
--->
 
     <div id="page-wrapper">
         <div class="row">
@@ -159,7 +179,7 @@ include_once "./configuration.php";
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6">
-                            <h2 class="page-name float-left text-white text-uppercase mt-1 mb-0"><b>Sheltar Movers</b>
+                            <h2 class="page-name float-left text-white text-uppercase mt-1 mb-0"><b>Let's Move it</b>
                             </h2>
                         </div>
                         <div class="col-md-6">
@@ -174,6 +194,24 @@ include_once "./configuration.php";
                 </div>
             </div>
             <!--	Banner -->
+
+            <div class="full-row">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 mb-4 mb-lg-0">
+                            <img src="images/movers2.jpg" alt="Description of Image" class="img-fluid">
+                        </div>
+                        <div class="col-lg-6">
+                            <h2 class="text-secondary double-down-line-left mb-4">Looking to move?
+                                Move with Us</h2>
+                            <p>Experience a seamless and stress-free move with Sheltar Movers.
+                                Whether you're moving locally or long-distance, we offer tailored solutions
+                                to meet your unique needs. Trust us to make your move smooth, efficient, and worry-free.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!--	Quote Inforamtion -->
             <div class="full-row">
@@ -213,8 +251,8 @@ include_once "./configuration.php";
                             <div class="container">
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <h2 class="text-secondary double-down-line text-center mb-5">Looking to move?
-                                            Move with Us</h2>
+                                        <h2 class="text-secondary double-down-line text-center mb-5">Book this service
+                                            now</h2>
                                         <?php echo $msg; ?><?php echo $error; ?>
                                     </div>
                                 </div>

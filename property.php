@@ -57,14 +57,15 @@ include_once './connection2.php';
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6">
-                            <h2 class="page-name float-left text-white text-uppercase mt-1 mb-0"><b>Property Grid</b>
+                            <h2 class="page-name float-left text-white text-uppercase mt-1 mb-0"><b>Find your next
+                                    home</b>
                             </h2>
                         </div>
                         <div class="col-md-6">
                             <nav aria-label="breadcrumb" class="float-left float-md-right">
                                 <ol class="breadcrumb bg-transparent m-0 p-0">
                                     <li class="breadcrumb-item text-white"><a href="#">Home</a></li>
-                                    <li class="breadcrumb-item active">Property Grid</li>
+                                    <li class="breadcrumb-item active">Properties</li>
                                 </ol>
                             </nav>
                         </div>
@@ -106,6 +107,7 @@ include_once './connection2.php';
                                             property_listing pl
                                         LEFT JOIN
                                             users u ON pl.user_id = u.user_id
+                                        WHERE pl.verification = 1
                                         ORDER BY pl.added DESC";
 
                                 if ($result = mysqli_prepare($conn, $query)) {
@@ -136,7 +138,7 @@ include_once './connection2.php';
                                                 <div class="featured-thumb hover-zoomer mb-4">
                                                     <a href="propertydetail.php?pid=' . htmlspecialchars($listingId) . '">
                                                         <div class="overlay-black overflow-hidden position-relative">
-                                                            <img src="sheltar-properties/uploads/property-images/' . htmlspecialchars($imagePaths[0]) . '" alt="pimage">
+                                                            <img style="max-height: 200px; object-fit: cover;" src="sheltar-properties/uploads/property-images/' . htmlspecialchars($imagePaths[0]) . '" alt="pimage">
                                                             <div class="sale bg-secondary text-white">' . htmlspecialchars($listingType) . '
                                                             </div>
                                                             <div class="price text-primary text-capitalize">

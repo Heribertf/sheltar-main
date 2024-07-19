@@ -70,9 +70,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             if (password_verify($password, $hashed_password)) {
 
                                 $sub_query = "SELECT DATE_FORMAT(s.sub_expiry, '%d-%b-%Y') AS expiryDate, s.status, p.plan_name
-                                            FROM subscriptions s 
-                                            JOIN plans p ON s.plan = p.plan_id
-                                            WHERE s.user_id = ?";
+                                              FROM subscriptions s 
+                                              JOIN plans p ON s.plan = p.plan_id
+                                              WHERE s.user_id = ?";
 
                                 if ($stmt_sub = mysqli_prepare($conn, $sub_query)) {
                                     mysqli_stmt_bind_param($stmt_sub, "i", $userId);
@@ -86,6 +86,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             if (mysqli_stmt_fetch($stmt_sub)) {
                                                 date_default_timezone_set('Africa/Nairobi');
                                                 $todayDate = date('Y-m-d');
+                                                $expiryDateFormatted = date('Y-m-d', strtotime($sub_expiry));
+
                                                 session_start();
 
                                                 $_SESSION["loggedin"] = true;
@@ -96,8 +98,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 $_SESSION["profile"] = $profileImage;
                                                 $_SESSION["user_type"] = 3;
                                                 $_SESSION["subscription"] = $plan_name;
-                                                $_SESSION["sub_expiry"] = $sub_expiry;
                                                 $_SESSION["sub_status"] = $subscription_status;
+
+                                                if ($expiryDateFormatted < $todayDate) {
+                                                    $_SESSION["sub_expiry"] = 'Expired';
+                                                } else {
+                                                    $_SESSION["sub_expiry"] = $sub_expiry;
+                                                }
 
                                                 $response = [
                                                     'success' => true,
@@ -125,8 +132,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         }
                                     }
                                 }
-
-
                             } else {
                                 $password_err = "Invalid login credentials.";
                                 $response = [

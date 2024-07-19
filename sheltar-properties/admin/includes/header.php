@@ -17,7 +17,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>Agent Dashboard - Sheltarn Developers</title>
+    <title>Admin Dashboard - Sheltarn Developers</title>
 
     <!-- Fonts -->
 

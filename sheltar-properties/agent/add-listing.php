@@ -2,6 +2,8 @@
 include ("./includes/header.php");
 include ("./includes/sidebar.php");
 include ("./includes/navbar.php");
+include_once "../../configuration.php";
+
 ?>
 
 <div class="page-content">
@@ -198,17 +200,35 @@ include ("./includes/navbar.php");
                             <div class="col-sm-6">
                                 <div class="mb-3">
                                     <label class="form-label">City</label>
-                                    <input type="text" class="form-control" placeholder="Enter City/Town" id="city"
-                                        name="city" required>
+                                    <input type="text" class="form-control" placeholder="Enter City/Town e.g Kasarani"
+                                        id="city" name="city" required>
                                 </div>
                             </div><!-- Col -->
                             <div class="col-sm-6">
                                 <div class="mb-3">
                                     <label class="form-label">Address</label>
-                                    <input type="text" class="form-control" placeholder="Enter address" id="address"
-                                        name="address" required>
+                                    <input type="text" class="form-control" placeholder="Enter address e.g Seasons"
+                                        id="address" name="address" required>
                                 </div>
                             </div><!-- Col -->
+
+                            <!-- Map for selecting coordinates -->
+                            <div class="col-sm-12">
+                                <div class="mb-2">
+                                    <label class="form-label">Select Location on Map to be Displayed on Website:</label>
+                                    <div id="map" style="height: 400px; width: 100%;"></div>
+
+                                </div>
+
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <input type="text" class="form-control" id="latitude" name="latitude" required readonly>
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <input type="text" class="form-control" id="longitude" name="longitude" required
+                                    readonly>
+                            </div>
+
                         </div><!-- Row -->
                         <div class="row">
                             <div class="col-sm-12">
@@ -233,6 +253,52 @@ include ("./includes/navbar.php");
 include ("./includes/footer.php");
 ?>
 <script>
+    function initMap() {
+        var defaultLocation = { lat: -1.2921, lng: 36.8219 }; // Default location (Nairobi)
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: defaultLocation,
+            zoom: 13
+        });
+        var marker = new google.maps.Marker({
+            position: defaultLocation,
+            map: map,
+            draggable: true
+        });
+
+        // Update lat/long values in the form fields
+        function updateLatLongFields(latLng) {
+            document.getElementById('latitude').value = latLng.lat();
+            document.getElementById('longitude').value = latLng.lng();
+        }
+
+        // Add event listener to update lat/long when the marker is moved
+        marker.addListener('dragend', function () {
+            updateLatLongFields(marker.getPosition());
+        });
+
+        // Add event listener to update lat/long when the map is clicked
+        map.addListener('click', function (event) {
+            marker.setPosition(event.latLng);
+            updateLatLongFields(event.latLng);
+        });
+
+        // Initialize the lat/long values in the form fields
+        updateLatLongFields(defaultLocation);
+    }
+
+    // Load the Google Maps API and initialize the map
+    function loadGoogleMapsApi() {
+        var script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=<?php echo $config["google"]["apiKey"]; ?>&callback=initMap`;
+        script.async = true;
+        script.defer = true;
+        document.head.appendChild(script);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        loadGoogleMapsApi();
+    });
+
     function previewImages() {
         var preview = document.getElementById('imagePreview');
         var files = document.getElementById('propertyImages').files;
@@ -267,19 +333,9 @@ include ("./includes/footer.php");
     }
 
     $(document).ready(function () {
-
         $('#property-listing-form').submit(function (e) {
             e.preventDefault();
-
             var formData = new FormData($(this)[0]);
-
-            // var checkedFeatures = $('input[type=checkbox]:checked').map(function () {
-            //     return this.value;
-            // }).get();
-
-            // checkedFeatures.forEach(function (feature) {
-            //     formData.append('features[]', feature);
-            // });
 
             console.log(formData);
             $.ajax({
@@ -297,8 +353,6 @@ include ("./includes/footer.php");
                             icon: 'success',
                             title: 'Success',
                             text: response.message
-                            // showConfirmButton: false,
-                            // timer: 3000
                         }).then((result) => {
                             location.reload();
                         });
@@ -313,7 +367,6 @@ include ("./includes/footer.php");
                             }
                         });
                     }
-
                 },
                 error: function (xhr, status, error) {
                     Swal.fire({
@@ -324,9 +377,7 @@ include ("./includes/footer.php");
                 }
             });
         });
-
     });
-
 </script>
 
 <?php

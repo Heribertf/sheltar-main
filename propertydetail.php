@@ -4,6 +4,8 @@ session_cache_limiter(false);
 session_start();
 include_once './connection1.php';
 include_once './connection2.php';
+include_once "./configuration.php";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -76,6 +78,31 @@ include_once './connection2.php';
                 transform: rotate(360deg);
             }
         }
+
+        #description-container {
+            /* position: relative; */
+            max-height: 150px;
+            /* Set a height that shows only part of the description */
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        #description-container.expanded {
+            max-height: none;
+        }
+
+        #read-more {
+            /* display: inline-block; */
+            margin-top: 10px;
+            color: var(--theme-primary-color);
+            cursor: pointer;
+        }
+
+        #read-more:active,
+        #read-more:focus {
+            outline: none;
+            text-decoration: none;
+        }
     </style>
 </head>
 
@@ -137,7 +164,7 @@ include_once './connection2.php';
                                                 WHEN pl.property_type = 1 THEN 'Apartment'
                                                 WHEN pl.property_type = 2 THEN 'Bungalow'
                                                 WHEN pl.property_type = 3 THEN 'Massionatte'
-                                            END AS property_type, pl.bedroom_count, pl.unit_price, pl.property_description, pl.features, pl.image_paths, pl.city, pl.address, DATE_FORMAT(pl.added, '%d-%b-%Y') AS dateAdded,
+                                            END AS property_type, pl.bedroom_count, pl.unit_price, pl.property_description, pl.features, pl.image_paths, pl.city, pl.address, pl.latitude, pl.longitude, DATE_FORMAT(pl.added, '%d-%b-%Y') AS dateAdded,
                                         CONCAT(u.first_name, ' ', u.last_name) AS agentName, u.phone, u.email, u.profileImage
                                         FROM 
                                             property_listing pl
@@ -150,7 +177,7 @@ include_once './connection2.php';
                             mysqli_stmt_bind_param($result, "i", $listing_id);
                             mysqli_stmt_execute($result);
 
-                            mysqli_stmt_bind_result($result, $listingId, $propertyName, $listingType, $proertyUse, $propertyStatus, $propertyType, $bedrooms, $price, $description, $features, $images, $city, $address, $dateAdded, $agentName, $agentPhone, $agentEmail, $agentProfile);
+                            mysqli_stmt_bind_result($result, $listingId, $propertyName, $listingType, $proertyUse, $propertyStatus, $propertyType, $bedrooms, $price, $description, $features, $images, $city, $address, $latitude, $longitude, $dateAdded, $agentName, $agentPhone, $agentEmail, $agentProfile);
 
 
                             if (mysqli_stmt_fetch($result)) {
@@ -192,8 +219,14 @@ include_once './connection2.php';
                                             </div>
                                             <div class="property-details">
                                                  
-                                                <h4 class="text-secondary my-4">Description</h4>
-                                                <p>' . $description . '</p>
+
+                                            <h4 class="text-secondary my-4">Description</h4>
+                                            <div id="description-container">
+                                                <p id="description-text">' . nl2br($description) . '</p>
+                                            </div>
+                                            
+                                            <a href="javascript:void(0)" id="read-more">Read More</a>
+
                                                 
                                                 <h5 class="mt-5 mb-4 text-secondary">Property Summary</h5>
                                                 <div  class="table-striped font-14 pb-2">
@@ -239,59 +272,32 @@ include_once './connection2.php';
                                                         <div class="col-sm-4 col-lg-3"> <img src="sheltar-properties/uploads/profile-images/' . htmlspecialchars($agentProfile) . '" alt="agent profile" style="object-fit: cover;" height="200" width="170"> </div>
                                                         <div class="col-sm-8 col-lg-9">
                                                             <div class="agent-data text-ordinary mt-sm-20">
-                                                                <h6 class="text-primary text-capitalize">' . htmlspecialchars($agentName) . '</h6>
+                                                                <h6 class="text-primary text-capitalize">
+                                                                ' . htmlspecialchars($agentName) . ' 
+                                                                <img src="images/verified-badge.png" alt="verified badge" style="width: 20px; height: 20px; margin-left: 5px;">
+                                                                </h6>
                                                                 <ul class="mb-3">
-                                                                    <li>' . htmlspecialchars($agentPhone) . '</li>
                                                                     <li>' . htmlspecialchars($agentEmail) . '</li>
                                                                 </ul>
-                                                                
-                                                                <div class="mt-3 text-secondary hover-text-primary">
-                                                                    <ul>
-                                                                        <li class="float-left mr-3"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                                                        <li class="float-left mr-3"><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                                                        <li class="float-left mr-3"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                                                                    </ul>
-                                                                </div>
+                                                        
+                                                            </div>
+                                                            <div>
+                                                            <a href="https://wa.me/' . htmlspecialchars($agentPhone) . '?text=' . htmlspecialchars($customMessage) . '" class="btn btn-primary mt-4"> <i class="fab fa-whatsapp"></i> Whatsapp Agent</a>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-12 col-lg-12">
-                                                            <form class="bg-gray-form mt-5" method="post" enctype="multipart/form-data" id="request-callback">
-                                                                <div class="row">
-                                                                    <div class="col-md-5">
-                                                                        <div class="row">
-                                                                        <div>
-                                                                            <input type="hidden" name="agent-name" value="' . htmlspecialchars($agentName) . '"
-                                                                                readonly>
-                                                                            <input type="hidden" name="agent-email" value="' . htmlspecialchars($agentEmail) . '"
-                                                                                readonly>
-                                                                            <input type="hidden" name="property-name" value="' . htmlspecialchars($propertyName) . '"
-                                                                                readonly>
-                                                                            <input type="hidden" name="property-id" value="' . htmlspecialchars($listingId) . '"
-                                                                                readonly>
-
-                                                                        </div>
-                                                                            <div class="col-md-12">
-                                                                                <div class="form-group">
-                                                                                    <input class="form-control bg-gray" id="name" name="clientname" placeholder="Name" type="text" required>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-12">
-                                                                                <div class="form-group">
-                                                                                    <input class="form-control bg-gray" id="phone" name="clientphone" placeholder="Phone" type="text" required>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-12">
-                                                                                <button type="submit" id="send" value="submit" class="btn btn-primary">Request Callback</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    
-                                                                </div>
-                                                            </form>
+                                                            
+                                                
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="mt-5">
+                                            <h4 class="text-secondary my-4">Property Location</h4>
+                                            <div id="map" style="width: 100%; height: 400px;"></div>
+                                        </div>
+
                                         </div>
                                                 ';
 
@@ -308,6 +314,60 @@ include_once './connection2.php';
                         }
 
                         ?>
+
+                        <!-- Google Maps JavaScript API -->
+                        <script async defer
+                            src="https://maps.googleapis.com/maps/api/js?key=<?php echo $config["google"]["apiKey"]; ?>&callback=initMap"></script>
+
+                        <script>
+                            function initMap() {
+
+                                var defaultLocation = { lat: -1.2921, lng: 36.8219 };
+                                var propertyLocation = {
+                                    lat: <?php echo isset($latitude) && !empty($latitude) ? $latitude : 'null'; ?>,
+                                    lng: <?php echo isset($longitude) && !empty($longitude) ? $longitude : 'null'; ?>
+                                };
+
+                                // Check if the propertyLocation is valid, otherwise use defaultLocation
+                                if (propertyLocation.lat === null || propertyLocation.lng === null) {
+                                    propertyLocation = defaultLocation;
+                                }
+
+                                var map = new google.maps.Map(document.getElementById('map'), {
+                                    zoom: 15,
+                                    center: propertyLocation
+                                });
+
+                                var marker = new google.maps.Marker({
+                                    position: propertyLocation,
+                                    map: map
+                                });
+                            }
+                        </script>
+
+                        <!-- <script>
+                            function initMap() {
+                                var address = "Roysambu, Nairobi, Kenya";
+
+                                var geocoder = new google.maps.Geocoder();
+                                var map = new google.maps.Map(document.getElementById('map'), {
+                                    zoom: 15,
+                                    center: { lat: -34.397, lng: 150.644 }  // Default center
+                                });
+
+                                geocoder.geocode({ 'address': address }, function (results, status) {
+                                    if (status === 'OK') {
+                                        map.setCenter(results[0].geometry.location);
+                                        var marker = new google.maps.Marker({
+                                            map: map,
+                                            position: results[0].geometry.location
+                                        });
+                                    } else {
+                                        alert('Geocode was not successful for the following reason: ' + status);
+                                    }
+                                });
+                            }
+                        </script> -->
 
 
 
@@ -384,20 +444,20 @@ include_once './connection2.php';
                                         $imagePaths = preg_split('/\s*,\s*/', $row['image_paths']);
 
                                         ?>
-                                    <li>
-                                        <a href="propertydetail.php?pid=<?php echo $row['listing_id']; ?>"><img
-                                                src="sheltar-properties/uploads/property-images/<?php echo $imagePaths[0]; ?>"
-                                                alt="property image"></a>
-                                        <h6 class="text-secondary hover-text-primary text-capitalize"><a
-                                                href="propertydetail.php?pid=<?php echo $row['listing_id']; ?>">
-                                                <?php echo $row['property_name']; ?>
-                                            </a></h6>
-                                        <span class="font-14"><i
-                                                class="fas fa-map-marker-alt icon-primary icon-small"></i>
-                                            <?php echo $row['address'] . ', ' . $row['city']; ?>
-                                        </span>
+                                        <li>
+                                            <a href="propertydetail.php?pid=<?php echo $row['listing_id']; ?>"><img
+                                                    src="sheltar-properties/uploads/property-images/<?php echo $imagePaths[0]; ?>"
+                                                    alt="property image"></a>
+                                            <h6 class="text-secondary hover-text-primary text-capitalize"><a
+                                                    href="propertydetail.php?pid=<?php echo $row['listing_id']; ?>">
+                                                    <?php echo $row['property_name']; ?>
+                                                </a></h6>
+                                            <span class="font-14"><i
+                                                    class="fas fa-map-marker-alt icon-primary icon-small"></i>
+                                                <?php echo $row['address'] . ', ' . $row['city']; ?>
+                                            </span>
 
-                                    </li>
+                                        </li>
                                     <?php } ?>
 
                                 </ul>
@@ -440,6 +500,24 @@ include_once './connection2.php';
 
     <script src="js/custom.js"></script>
     <script src="js/contact.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var readMoreBtn = document.getElementById('read-more');
+            var descriptionContainer = document.getElementById('description-container');
+
+            readMoreBtn.addEventListener('click', function () {
+                descriptionContainer.classList.toggle('expanded');
+                if (descriptionContainer.classList.contains('expanded')) {
+                    readMoreBtn.textContent = 'Read Less';
+                } else {
+                    readMoreBtn.textContent = 'Read More';
+                }
+            });
+        });
+    </script>
+
+
 
 </body>
 

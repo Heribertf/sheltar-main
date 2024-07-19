@@ -22,4 +22,3 @@ if (isset($_POST['adminId'])) {
 
     mysqli_close($conn);
 }
-?>
