@@ -3,78 +3,158 @@ document.addEventListener('DOMContentLoaded', function () {
 
     paymentBtns.forEach(btn => {
         btn.addEventListener('click', function (e) {
-            payWithPaystack(e, btn);
+            payWithMpesa(e, btn);
         }, false);
     });
-});
 
-function payWithPaystack(e, btn) {
-    e.preventDefault();
-    const planId = btn.getAttribute('data-plan-id');
-    const publicKey = btn.getAttribute('data-key');
-    const customerEmail = btn.getAttribute('data-email');
-    const planAmount = btn.getAttribute('data-amount');
+    function payWithMpesa(e, btn) {
+        e.preventDefault();
+        const planId = btn.getAttribute('data-plan-id');
+        const publicKey = btn.getAttribute('data-key');
+        const customerEmail = btn.getAttribute('data-email');
+        const planAmount = btn.getAttribute('data-amount');
+        const confirmPayment = document.getElementById('confirm-payment');
+        const alertSection = document.getElementById('alert-section');
+        const paymentStatus = document.getElementById('payment-status');
+        const paymentMessage = document.getElementById('payment-message');
+        const currency = 'KES';
+        const selectedAmount = 10;
 
-    let handler = PaystackPop.setup({
-        key: publicKey,
-        email: customerEmail,
-        amount: planAmount * 100,
-        currency: 'KES',
-        ref: '' + Math.floor((Math.random() * 1000000000) + 1),
-        onClose: function () {
+        const modalOverlay = document.querySelector('.modal-overlay');
+        const goBackBtn = document.querySelector('.go-back');
+        const price = document.getElementById('plan-price');
+        price.textContent = "KSh " + planAmount;
+        modalOverlay.classList.add('active');
+
+        // Remove previous event listeners if any
+        goBackBtn.removeEventListener('click', closeModal);
+        modalOverlay.removeEventListener('click', handleModalClick);
+        confirmPayment.removeEventListener('click', handleConfirmPayment);
+
+        // Add event listeners
+        goBackBtn.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', handleModalClick);
+        confirmPayment.addEventListener('click', handleConfirmPayment);
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
             Swal.fire({
                 icon: 'warning',
                 title: 'Terminated!',
                 text: 'Transaction was not completed, window closed.'
             });
-        },
-        callback: function (response) {
-            fetch('http://localhost/sheltar-main/sheltar-properties/agent/verify-transaction', {
+        }
+
+        function handleModalClick(e) {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
+        }
+
+        function handleConfirmPayment() {
+            const phoneNumberPart = document.getElementById('phoneNumber').value;
+            const phoneNumber = '254' + phoneNumberPart;
+            if (validatePhoneNumber(phoneNumber)) {
+                confirmPayment.disabled = true; // Disable the button to prevent multiple clicks
+                initiatePayment(planId, selectedAmount, currency, phoneNumber, customerEmail);
+            } else {
+                alert('Please enter a valid phone number in the format 2547xxxxxxxx');
+            }
+        }
+
+        function validatePhoneNumber(phoneNumber) {
+            const regex = /^254\d{9}$/;
+            return regex.test(phoneNumber);
+        }
+
+        function initiatePayment(plan, amount, currency, phoneNumber, email) {
+            const name = 'Test User';
+
+            alertSection.style.display = 'block';
+
+            fetch('process-payment', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: JSON.stringify({
-                    reference: response.reference,
-                    plan_id: planId
-                })
+                body: `action=initiate&plan=${plan}&amount=${amount}&currency=${currency}&phone_number=${phoneNumber}&email=${email}&name=${name}`
             })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: 'Success',
-                            text: data.message,
-                            // showConfirmButton: false,
-                            // timer: 2000
-                        }).then((result) => {
-                            location.reload();
-                        });
+                        paymentMessage.textContent = 'Payment initiated. Please check your phone to complete the transaction.';
+                        setTimeout(() => verifyPayment(data.data.invoice.invoice_id), 10000); // Check payment status after 10 seconds
                     } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: data.message
-                        });
+                        paymentStatus.textContent = 'ERROR';
+                        paymentMessage.textContent = `Error: ${data.message}`;
+                        confirmPayment.disabled = false; // Re-enable the button if there's an error
                     }
                 })
                 .catch(error => {
-                    console.error('Error:', error);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'An error occurred during transaction verification.'
-                    });
+                    paymentStatus.textContent = 'ERROR';
+                    paymentMessage.textContent = `Error: ${error.message}`;
+                    confirmPayment.disabled = false; // Re-enable the button if there's an error
                 });
         }
-    });
 
-    handler.openIframe();
-}
+        let retryCount = 0;
+        const maxRetries = 6;
 
-document.addEventListener('DOMContentLoaded', function () {
+        function verifyPayment(transactionId) {
+            fetch('process-payment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `action=verify&transactionId=${transactionId}`
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        handlePaymentState(data.data.invoice);
+                    } else {
+                        showError(data.message);
+                    }
+                })
+                .catch(error => {
+                    showError(error.message);
+                });
+        }
+
+        function handlePaymentState(invoice) {
+            if (invoice.state === 'COMPLETE') {
+                alertSection.classList.remove('alert-secondary');
+                alertSection.classList.add('alert-success');
+                paymentStatus.textContent = 'COMPLETED';
+                paymentMessage.textContent = 'Payment successful! Your subscription is now active.';
+            } else if (['PENDING', 'PROCESSING'].includes(invoice.state)) {
+                paymentStatus.textContent = `${invoice.state.toLowerCase()}...`;
+                paymentMessage.textContent = `Payment is still ${invoice.state.toLowerCase()}. Please wait...`;
+
+                if (retryCount < maxRetries) {
+                    retryCount++;
+                    setTimeout(() => verifyPayment(invoice.invoice_id), 10000);
+                } else {
+                    alertSection.classList.remove('alert-secondary');
+                    alertSection.classList.add('alert-warning');
+                    paymentStatus.textContent = `${invoice.state.toLowerCase()}...`;
+                    paymentMessage.textContent = `Payment is still ${invoice.state.toLowerCase()} after multiple attempts. If the transaction is successful on your end, please contact support for assistance.`;
+                }
+            } else {
+                showError(`Payment failed. Status: ${invoice.state}`);
+            }
+        }
+
+        function showError(message) {
+            alertSection.classList.remove('alert-secondary');
+            alertSection.classList.add('alert-danger');
+            paymentStatus.textContent = 'ERROR';
+            paymentMessage.textContent = `Error: ${message}`;
+            confirmPayment.disabled = false; // Re-enable the button if there's an error
+        }
+    }
+
+
     var agentRadio = document.getElementById("agent");
     var landloardRadio = document.getElementById("landloard");
     var agentDetails = document.getElementById("agent-details");
@@ -182,5 +262,4 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
-
 });

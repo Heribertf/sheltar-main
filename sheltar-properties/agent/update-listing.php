@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             mysqli_stmt_bind_param($stmt, "sdi", $propertyName, $unitPrice, $listingId);
 
             if (mysqli_stmt_execute($stmt)) {
-                $response = array('success' => true, 'message' => 'Prooerty details updated successfully');
+                $response = array('success' => true, 'message' => 'Property details updated successfully');
                 echo json_encode($response);
             } else {
                 $response = array('success' => false, 'message' => 'Failed to update property details');

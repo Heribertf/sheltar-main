@@ -6,7 +6,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
-function sendNotificationEmail($fullname, $email, $propertyName, $comment, $type)
+function sendNotificationEmail($fullname, $email, $propertyName, $comment, $type, $listingId)
 {
     date_default_timezone_set('Africa/Nairobi');
     require '../vendor/autoload.php';
@@ -78,12 +78,13 @@ function sendNotificationEmail($fullname, $email, $propertyName, $comment, $type
                     a.button {
                         display: inline-block;
                         padding: 1rem 2rem;
-                        background-color: #4834d4;
+                        background-color: #64a67e;
                         color: #ffffff;
                         text-decoration: none;
                         border-radius: 5px;
                         font-size: 0.875rem;
                         text-align: center;
+                        cursor: pointer;
                     }
 
                     img {
@@ -131,7 +132,7 @@ function sendNotificationEmail($fullname, $email, $propertyName, $comment, $type
                     <div class="card">
                         <h3>' . $propertyName . ' is live now!</h3>
                         <p><strong>Hello ' . $fullname . ',</strong></p>
-                        <p>We are pleased to inform you that your property listing: <strong>' . $propertyName . '</strong> has been approved and published.</p>
+                        <p>We are pleased to inform you that your property listing: <strong>' . $propertyName . '</strong> has been approved and published. To view the listing, follow this link: <a href="http://localhost/sheltar-main/propertydetail?pid=' . $listingId . '" class="button" >View Listing<a/></p>
                         <p>Continue advertising with us for greater market reach.</p>
                         <p>Thank you.</p>
                     </div>
@@ -188,12 +189,13 @@ function sendNotificationEmail($fullname, $email, $propertyName, $comment, $type
                     a.button {
                         display: inline-block;
                         padding: 1rem 2rem;
-                        background-color: #4834d4;
+                        background-color: #64a67e;
                         color: #ffffff;
                         text-decoration: none;
                         border-radius: 5px;
                         font-size: 0.875rem;
                         text-align: center;
+                        cursor: pointer;
                     }
 
                     img {
@@ -241,7 +243,7 @@ function sendNotificationEmail($fullname, $email, $propertyName, $comment, $type
                     <div class="card">
                         <h3>' . $propertyName . ' has been rejected!</h3>
                         <p><strong>Hello ' . $fullname . ',</strong></p>
-                        <p>We regrete to inform you that your property listing: <strong>' . $propertyName . '</strong> has not been approved.</p>
+                        <p>We regret to inform you that your property listing: <strong>' . $propertyName . '</strong> has not been approved.</p>
                         <p>' . $comment . '</p>
                     </div>
                     <footer>Sheltarn Developers</footer>
@@ -319,10 +321,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($conditionOne || $conditionTwo) {
         if ($listingStatus == 1) {
             $type = "approved";
-            sendNotificationEmail($fullName, $email, $property_name, $comment, $type);
+            sendNotificationEmail($fullName, $email, $property_name, $comment, $type, $listingId);
         } elseif ($listingStatus == 0) {
             $type = "rejected";
-            sendNotificationEmail($fullName, $email, $property_name, $comment, $type);
+            sendNotificationEmail($fullName, $email, $property_name, $comment, $type, $listingId);
         }
     }
 }

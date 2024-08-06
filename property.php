@@ -136,7 +136,7 @@ include_once './connection2.php';
                                             echo '
                                             <div class="col-md-6">
                                                 <div class="featured-thumb hover-zoomer mb-4">
-                                                    <a href="propertydetail.php?pid=' . htmlspecialchars($listingId) . '">
+                                                    <a href="propertydetail?pid=' . htmlspecialchars($listingId) . '">
                                                         <div class="overlay-black overflow-hidden position-relative">
                                                             <img style="max-height: 200px; object-fit: cover;" src="sheltar-properties/uploads/property-images/' . htmlspecialchars($imagePaths[0]) . '" alt="pimage">
                                                             <div class="sale bg-secondary text-white">' . htmlspecialchars($listingType) . '
@@ -150,7 +150,7 @@ include_once './connection2.php';
                                                         <div class="p-4">
                                                             <h5 class="text-secondary hover-text-primary mb-2 text-capitalize">
                                                                 <a
-                                                                    href="propertydetail.php?pid=' . htmlspecialchars($listingId) . '">' . htmlspecialchars($propertyName) . '</a>
+                                                                    href="propertydetail?pid=' . htmlspecialchars($listingId) . '">' . htmlspecialchars($propertyName) . '</a>
                                                             </h5>
                                                         </div>
                                                         <div class="px-4 pb-4 d-inline-block w-100">

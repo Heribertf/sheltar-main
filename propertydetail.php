@@ -282,7 +282,7 @@ include_once "./configuration.php";
                                                         
                                                             </div>
                                                             <div>
-                                                            <a href="https://wa.me/' . htmlspecialchars($agentPhone) . '?text=' . htmlspecialchars($customMessage) . '" class="btn btn-primary mt-4"> <i class="fab fa-whatsapp"></i> Whatsapp Agent</a>
+                                                            <a href="https://wa.me/' . htmlspecialchars($agentPhone) . '?text=' . htmlspecialchars($customMessage) . '" target="_blank" class="btn btn-primary mt-4"> <i class="fab fa-whatsapp"></i> Whatsapp Agent</a>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-12 col-lg-12">
@@ -328,48 +328,42 @@ include_once "./configuration.php";
                                     lng: <?php echo isset($longitude) && !empty($longitude) ? $longitude : 'null'; ?>
                                 };
 
-                                // Check if the propertyLocation is valid, otherwise use defaultLocation
+                                // Check if the propertyLocation is valid, otherwise use city to display location
                                 if (propertyLocation.lat === null || propertyLocation.lng === null) {
-                                    propertyLocation = defaultLocation;
+                                    // propertyLocation = defaultLocation;
+
+                                    var address = "<?php echo $city; ?>";
+
+                                    var geocoder = new google.maps.Geocoder();
+                                    var map = new google.maps.Map(document.getElementById('map'), {
+                                        zoom: 15,
+                                        center: { lat: -34.397, lng: 150.644 }  // Default center
+                                    });
+
+                                    geocoder.geocode({ 'address': address }, function (results, status) {
+                                        if (status === 'OK') {
+                                            map.setCenter(results[0].geometry.location);
+                                            var marker = new google.maps.Marker({
+                                                map: map,
+                                                position: results[0].geometry.location
+                                            });
+                                        } else {
+                                            alert('Geocode was not successful.');
+                                        }
+                                    });
+                                } else {
+                                    var map = new google.maps.Map(document.getElementById('map'), {
+                                        zoom: 15,
+                                        center: propertyLocation
+                                    });
+
+                                    var marker = new google.maps.Marker({
+                                        position: propertyLocation,
+                                        map: map
+                                    });
                                 }
-
-                                var map = new google.maps.Map(document.getElementById('map'), {
-                                    zoom: 15,
-                                    center: propertyLocation
-                                });
-
-                                var marker = new google.maps.Marker({
-                                    position: propertyLocation,
-                                    map: map
-                                });
                             }
                         </script>
-
-                        <!-- <script>
-                            function initMap() {
-                                var address = "Roysambu, Nairobi, Kenya";
-
-                                var geocoder = new google.maps.Geocoder();
-                                var map = new google.maps.Map(document.getElementById('map'), {
-                                    zoom: 15,
-                                    center: { lat: -34.397, lng: 150.644 }  // Default center
-                                });
-
-                                geocoder.geocode({ 'address': address }, function (results, status) {
-                                    if (status === 'OK') {
-                                        map.setCenter(results[0].geometry.location);
-                                        var marker = new google.maps.Marker({
-                                            map: map,
-                                            position: results[0].geometry.location
-                                        });
-                                    } else {
-                                        alert('Geocode was not successful for the following reason: ' + status);
-                                    }
-                                });
-                            }
-                        </script> -->
-
-
 
                         <div class="col-lg-4">
                             <h4 class="double-down-line-left text-secondary position-relative pb-4 mb-4 mt-md-50">Send
@@ -467,10 +461,7 @@ include_once "./configuration.php";
                 </div>
             </div>
 
-            <!--	Footer   start-->
             <?php include ("include/footer.php"); ?>
-            <!--	Footer   start-->
-
 
             <!-- Scroll to top -->
             <a href="#" class="bg-secondary text-white hover-text-secondary" id="scroll"><i
@@ -516,9 +507,6 @@ include_once "./configuration.php";
             });
         });
     </script>
-
-
-
 </body>
 
 </html>

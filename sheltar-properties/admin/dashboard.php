@@ -117,7 +117,7 @@ include_once './includes/mysqli_connection.php';
                                     </h3>
                                 </div>
                                 <div class="col-6 col-md-12 col-xl-7 d-flex justify-content-end align-items-end">
-                                    <a href="./verified_agents" class="btn btn-primary" role="button">View
+                                    <a href="./verified-agents" class="btn btn-primary" role="button">View
                                     </a>
                                 </div>
                             </div>
