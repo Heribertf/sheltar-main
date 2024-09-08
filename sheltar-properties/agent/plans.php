@@ -1,10 +1,10 @@
 <?php
 session_start();
-include ("./includes/header.php");
-include ("./includes/sidebar.php");
-include ("./includes/navbar.php");
+include("./includes/header.php");
+include("./includes/sidebar.php");
+include("./includes/navbar.php");
 
-include ("../connection.php");
+include("../connection.php");
 $session_user = $_SESSION["id"];
 $currrentSubStatus = $_SESSION["sub_status"];
 ?>
@@ -241,7 +241,7 @@ $currrentSubStatus = $_SESSION["sub_status"];
 
                                     $splitFeatures = preg_split('/\r\n|\r|\n|,/', $planFeatures);
                                     $features = array_unique(array_map('trim', $splitFeatures)); // Trim spaces and remove duplicates
-                            
+
                                     if ($planName == "Free") {
                                         $iconType = "gift";
                                         $textType = "primary";
@@ -274,7 +274,7 @@ $currrentSubStatus = $_SESSION["sub_status"];
                                     }
 
                                     echo '
-                                    <div class="col-md-4 stretch-card grid-margin grid-margin-md-0">
+                                    <div class="col-md-6 stretch-card grid-margin grid-margin-md-0">
                                     <div class="card">
                                         <div class="card-body">
                                             <h4 class="text-center mt-3 mb-4">' . htmlspecialchars($planName) . '</h4>
@@ -335,7 +335,7 @@ $currrentSubStatus = $_SESSION["sub_status"];
             <div class="card-info">
                 <img src="../assets/images/mpesalogo.png" alt="M-Pesa Logo" class="mpesa-logo">
                 <div class="card-details">
-                    <div>TechBloom Solutions</div>
+                    <div>Sheltar Properties</div>
                     <div>+254 712 345678</div>
                 </div>
             </div>
@@ -369,7 +369,7 @@ $currrentSubStatus = $_SESSION["sub_status"];
 
 
 <?php
-include ("./includes/footer.php");
+include("./includes/footer.php");
 ?>
 
 
@@ -381,5 +381,5 @@ include '../config.php';
 <script src="./assets/js/custom.js"></script>
 
 <?php
-include ("./includes/footer_end.php");
+include("./includes/footer_end.php");
 ?>

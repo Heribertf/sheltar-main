@@ -264,7 +264,7 @@ $(document).ready(function () {
         var formData = new FormData($(this)[0]);
         $.ajax({
             type: 'POST',
-            url: './update-password',
+            url: './update-fgt-password',
             data: formData,
             cache: false,
             contentType: false,

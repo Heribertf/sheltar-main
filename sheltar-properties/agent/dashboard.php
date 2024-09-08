@@ -1,8 +1,8 @@
 <?php
 session_start();
-include ("./includes/header.php");
-include ("./includes/sidebar.php");
-include ("./includes/navbar.php");
+include("./includes/header.php");
+include("./includes/sidebar.php");
+include("./includes/navbar.php");
 
 include_once './includes/config.php';
 include_once './includes/mysqli_connection.php';
@@ -36,6 +36,161 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
 }
 
 ?>
+
+
+<style>
+    .open-modal-btn {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #00a54f;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .my-modal {
+        background-color: white;
+        border-radius: 8px;
+        padding: 20px;
+        width: 400px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transform: scale(0.8);
+        opacity: 1;
+        transition: transform 0.5s ease, opacity 0.5s ease;
+    }
+
+    .modal-overlay.active .modal {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    .card-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .mpesa-logo {
+        width: 80px;
+        height: auto;
+        margin-right: 10px;
+    }
+
+    .card-details {
+        font-size: 14px;
+    }
+
+    .amount-option {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .amount-option.selected {
+        border-color: #00a54f;
+        background-color: #e6f7ef;
+    }
+
+    .amount-option input[type="radio"] {
+        margin-right: 10px;
+    }
+
+    .other-amount {
+        display: flex;
+        align-items: center;
+    }
+
+    .other-amount input[type="text"] {
+        width: 100%;
+        padding: 5px;
+        margin-left: 5px;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .go-back {
+        color: #00a54f;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .pay-button {
+        background-color: #00a54f;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .phone-number {
+        margin-bottom: 15px;
+    }
+
+    .phone-number label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .phone-number-input {
+        display: flex;
+        align-items: center;
+    }
+
+    #phonePrefix {
+        width: 40px;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px 0 0 4px;
+        background-color: #f0f0f0;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    #phoneNumber {
+        flex-grow: 1;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-left: none;
+        border-radius: 0 4px 4px 0;
+        font-size: 14px;
+    }
+
+    #phoneNumber:focus,
+    #phonePrefix:focus {
+        outline: none;
+        border-color: #00a54f;
+    }
+</style>
 
 <div class="page-content">
 
@@ -147,7 +302,7 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
 
                                     $splitFeatures = preg_split('/\r\n|\r|\n|,/', $planFeatures);
                                     $features = array_unique(array_map('trim', $splitFeatures)); // Trim spaces and remove duplicates
-                            
+
                                     if ($planName == "Free") {
                                         $iconType = "gift";
                                         $textType = "primary";
@@ -180,7 +335,7 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
                                     }
 
                                     echo '
-                                    <div class="col-md-4 stretch-card grid-margin grid-margin-md-0">
+                                    <div class="col-md-6 stretch-card grid-margin grid-margin-md-0">
                                     <div class="card">
                                         <div class="card-body">
                                             <h4 class="text-center mt-3 mb-4">' . htmlspecialchars($planName) . '</h4>
@@ -216,7 +371,7 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
 
                                     echo '
                                                     <div class="d-grid">
-                                                    <button class="btn btn-' . htmlspecialchars($textType) . ' mt-4 payment-btn" data-plan-id="' . htmlspecialchars($planId) . '" data-key="' . htmlspecialchars($config["paystack"]["publicKey"]) . '" data-email="' . htmlspecialchars($_SESSION["email"]) . '" data-amount="' . htmlspecialchars($planPrice) . '" onclick="payWithPaystack(event, this)"' . ($currrentSubStatus == 1 ? ' disabled' : '') . '>Choose Plan</button>
+                                                    <button class="btn btn-' . htmlspecialchars($textType) . ' mt-4 payment-btn" data-plan-id="' . htmlspecialchars($planId) . '" data-key="' . htmlspecialchars($config["paystack"]["publicKey"]) . '" data-email="' . htmlspecialchars($_SESSION["email"]) . '" data-amount="' . htmlspecialchars($planPrice) . '" onclick="payWithMpesa(event, this)"' . ($currrentSubStatus == 1 ? ' disabled' : '') . '>Choose Plan</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -235,10 +390,45 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
         </div>
     </div> <!-- row -->
 
+    <div class="modal-overlay">
+        <div class="my-modal">
+            <div class="card-info">
+                <img src="../assets/images/mpesalogo.png" alt="M-Pesa Logo" class="mpesa-logo">
+                <div class="card-details">
+                    <div>Sheltar Poperties</div>
+                    <div>+254 712 345678</div>
+                </div>
+            </div>
+
+            <div class="alert alert-secondary" role="alert" id="alert-section" style="display: none">
+                <h4 class="alert-heading" id="payment-status">Processing...</h4>
+                <hr>
+                <p class="mb-0" id="payment-message">Payment initiated. Please check your phone to complete the
+                    transaction.</p>
+            </div>
+
+            <div class="amount-option selected">
+                <label for="total-amount">Total amount due</label>
+                <div id="plan-price">KSh 0</div>
+            </div>
+            <div class="phone-number">
+                <label for="phoneNumber">Enter M-Pesa Phone Number</label>
+                <div class="phone-number-input">
+                    <input type="text" id="phonePrefix" value="254" readonly>
+                    <input type="text" id="phoneNumber" maxlength="9" placeholder="7xxxxxxxx">
+                </div>
+            </div>
+            <div class="actions">
+                <a class="go-back">Cancel</a>
+                <button class="pay-button" id="confirm-payment">PROCEED TO PAY</button>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <?php
-include ("./includes/footer.php");
+include("./includes/footer.php");
 ?>
 <script src="https://js.paystack.co/v1/inline.js"></script>
 

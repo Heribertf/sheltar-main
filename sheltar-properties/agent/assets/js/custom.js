@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
             Swal.fire({
                 icon: 'warning',
                 title: 'Terminated!',
-                text: 'Transaction was not completed, window closed.'
+                text: 'Transaction was not completed.'
             });
         }
 

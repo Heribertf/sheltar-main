@@ -38,6 +38,40 @@ $login_url = $client->createAuthUrl();
 
     <link rel="stylesheet" href="../assets/css/demo1/style.min.css">
 
+    <style>
+        #loader {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+        }
+
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #075C52;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+
 </head>
 
 <body class="sidebar-dark">
@@ -56,56 +90,29 @@ $login_url = $client->createAuthUrl();
                                 </div>
                                 <div class="col-md-8 ps-md-0">
                                     <div class="auth-form-wrapper px-4 py-5">
+
+                                        <div id="loader">
+                                            <div class="loader"></div>
+                                        </div>
+
                                         <a href="#"
                                             class="noble-ui-logo d-block mb-2">Sheltar<span>Properties</span></a>
-                                        <h5 class="text-muted fw-normal mb-4">Login to your account.</h5>
+                                        <h5 class="text-muted fw-normal mb-4">Paasword Reset.</h5>
                                         <form class="forms-sample" method="post" enctype="multipart/form-data"
-                                            id="login-form">
+                                            id="reset-form">
                                             <div class="mb-3">
                                                 <label for="email" class="form-label">Email address</label>
                                                 <input type="email" class="form-control" id="email" name="email"
                                                     placeholder="Enter your registered email" required>
                                             </div>
-                                            <div class="mb-3">
-                                                <label for="password" class="form-label">Password</label>
-                                                <input type="password" class="form-control" id="password"
-                                                    name="password" placeholder="Enter your password" required>
-                                            </div>
                                             <div>
                                                 <button type="submit"
-                                                    class="btn btn-primary text-white me-2 mb-2 mb-md-0">Sign
-                                                    in</button>
-
-                                                <a href="<?php echo $login_url; ?>" type="button"
-                                                    class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
-                                                    <svg class="btn-icon-prepend" xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="0 0 24 24" width="24" height="24"
-                                                        class="main-grid-item-icon" fill="none">
-                                                        <path
-                                                            d="M24 12.276c0-.816-.067-1.636-.211-2.438H12.242v4.62h6.612a5.549 5.549 0 0 1-2.447 3.647v2.998h3.945C22.669 19.013 24 15.927 24 12.276Z"
-                                                            fill="#4285F4" />
-                                                        <path
-                                                            d="M12.241 24c3.302 0 6.086-1.063 8.115-2.897l-3.945-2.998c-1.097.732-2.514 1.146-4.165 1.146-3.194 0-5.902-2.112-6.873-4.951H1.302v3.09C3.38 21.444 7.612 24 12.242 24Z"
-                                                            fill="#34A853" />
-                                                        <path
-                                                            d="M5.369 14.3a7.053 7.053 0 0 1 0-4.595v-3.09H1.302a11.798 11.798 0 0 0 0 10.776L5.369 14.3Z"
-                                                            fill="#FBBC04" />
-                                                        <path
-                                                            d="M12.241 4.75a6.727 6.727 0 0 1 4.696 1.798l3.495-3.425A11.898 11.898 0 0 0 12.243 0C7.611 0 3.38 2.558 1.301 6.615l4.067 3.09C6.336 6.862 9.048 4.75 12.24 4.75Z"
-                                                            fill="#EA4335" />
-                                                    </svg>Sign in with Google</a>
-
-
-                                                <a type="button" class="btn btn-primary text-white mb-2 mb-md-0"
-                                                    href="./forgot-password">
-                                                    Forgot your password?
-                                                </a>
+                                                    class="btn btn-primary text-white me-2 mb-2 mb-md-0">Recover Password</button>
 
                                             </div>
                                             <div class="row d-flex justify-content-between">
                                                 <div class="col-md-6">
-                                                    <a href="./sign-up" class="d-block mt-3 text-muted">Don't have an
-                                                        account? Sign up</a>
+                                                    <a href="./sign-in" class="d-block mt-3 text-muted">Back to login</a>
                                                 </div>
                                                 <div class="col-md-6 d-flex justify-content-end">
                                                     <a href="../../index.php"
